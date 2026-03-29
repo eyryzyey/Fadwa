@@ -190,7 +190,7 @@ body {
 .ligne-decoration::before { left: -20px; }
 .ligne-decoration::after { right: -20px; }
 
-/* ⭐ BARRE DE STATISTIQUES HORIZONTALE ⭐ */
+/* BARRE DE STATISTIQUES HORIZONTALE */
 .barre-stats {
   display: flex;
   justify-content: center;
@@ -231,7 +231,6 @@ body {
   font-weight: 500;
 }
 
-/* Séparateurs horizontaux élégants */
 .separateur-stat {
   width: 1px;
   height: 60px;
@@ -252,7 +251,6 @@ body {
   box-shadow: 0 0 15px var(--or-rose);
 }
 
-/* Ligne horizontale décorative sous les stats */
 .ligne-horizontale-stats {
   width: 100%;
   max-width: 600px;
@@ -395,17 +393,17 @@ body {
   border-radius: 20px;
 }
 
-/* ⭐⭐⭐ GRILLE CARRÉE ⭐⭐⭐ */
+/* GRILLE CARRÉE */
 .grille-cartes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 30px;
 }
 
-/* ⭐⭐⭐ CARTE API CARRÉE ⭐⭐⭐ */
+/* CARTE API CARRÉE - نسخة نظيفة بدون endpoints */
 .carte-api {
   background: linear-gradient(145deg, #161616, #1a1a1a);
-  border-radius: 20px; /* مربع مع زوايا ناعمة */
+  border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.08);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
@@ -413,8 +411,8 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
-  aspect-ratio: 1 / 1; /* ⭐ يجعلها مربعة ⭐ */
-  max-height: 450px;
+  aspect-ratio: 1 / 1;
+  max-height: 400px;
 }
 
 .carte-api::before {
@@ -507,86 +505,51 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .description-api {
   color: #a0a0a0;
   font-size: 0.9rem;
   line-height: 1.6;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* ⭐⭐⭐ MÉTRIQUES COMPACTES ⭐⭐⭐ */
+/* MÉTRIQUES */
 .metriques {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .metrique {
   background: rgba(255,255,255,0.03);
-  padding: 12px 8px;
-  border-radius: 10px;
+  padding: 15px 8px;
+  border-radius: 12px;
   text-align: center;
   border: 1px solid rgba(255,255,255,0.05);
 }
 
 .valeur-metrique {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--or-rose);
   display: block;
 }
 
 .label-metrique {
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   color: #666;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-top: 4px;
 }
 
-/* ⭐⭐⭐ ENDPOINTS ⭐⭐⭐ */
-.section-endpoints {
-  margin-bottom: 15px;
-  flex: 1;
-  overflow: hidden;
-}
-
-.titre-endpoints {
-  font-size: 0.75rem;
-  color: var(--violet-neon);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.liste-endpoints {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.badge-endpoint {
-  background: rgba(185,103,255,0.15);
-  color: var(--violet-neon);
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-family: 'Courier New', monospace;
-  border: 1px solid rgba(185,103,255,0.3);
-}
-
-/* ⭐⭐⭐ BOUTONS D'ACTION ⭐⭐⭐ */
+/* BOUTONS D'ACTION - مباشرة تحت الميتريكس بدون فراغات */
 .actions-api {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -595,7 +558,7 @@ body {
 }
 
 .btn-copier-api {
-  padding: 12px;
+  padding: 14px;
   background: linear-gradient(135deg, rgba(255,107,157,0.2), rgba(185,103,255,0.2));
   border: 1px solid rgba(255,107,157,0.3);
   border-radius: 12px;
@@ -607,7 +570,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .btn-copier-api:hover {
@@ -622,7 +585,7 @@ body {
 }
 
 .btn-ouvrir-api {
-  padding: 12px;
+  padding: 14px;
   background: transparent;
   border: 1px solid rgba(0,212,255,0.3);
   border-radius: 12px;
@@ -634,7 +597,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .btn-ouvrir-api:hover {
@@ -698,12 +661,6 @@ body {
     background: linear-gradient(to right, transparent, rgba(255,107,157,0.5), transparent);
   }
   
-  .separateur-stat::before {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
   .stat-item {
     padding: 15px 30px;
     min-width: auto;
@@ -751,29 +708,23 @@ body {
   <p class="sous-titre">Collection Dynamique</p>
   <div class="ligne-decoration"></div>
   
-  <!-- BARRE DE STATISTIQUES HORIZONTALE -->
   <div class="barre-stats">
     <div class="stat-item">
       <span class="stat-valeur" id="totalAPIs">0</span>
       <span class="stat-label">APIs Disponibles</span>
     </div>
-    
     <div class="separateur-stat"></div>
-    
     <div class="stat-item">
       <span class="stat-valeur" id="totalCategories">0</span>
       <span class="stat-label">Catégories</span>
     </div>
-    
     <div class="separateur-stat"></div>
-    
     <div class="stat-item">
       <span class="stat-valeur" id="statutSystem" style="color: #00ff88;">●</span>
       <span class="stat-label">Système Actif</span>
     </div>
   </div>
   
-  <!-- Ligne horizontale décorative -->
   <div class="ligne-horizontale-stats"></div>
 </header>
 
@@ -797,7 +748,6 @@ body {
 </footer>
 
 <script>
-// Configuration
 const CONFIG = {
   API_URL: "/api/list",
   ICONES_CATEGORIES: {
@@ -845,12 +795,9 @@ function formaterAPI(api) {
     info: api.info || api.description || api.desc || "Aucune description disponible",
     logo: api.logo || api.icon || api.image || "https://via.placeholder.com/60/161616/ff6b9d?text=API",
     url: Array.isArray(api.url) ? api.url : [api.url || api.endpoint || api.link || "#"],
-    method: api.method || api.httpMethod || "GET",
     latency: api.latency || api.latence || api.speed || "N/A",
     uptime: api.uptime || api.disponibilite || "99%",
-    requests: api.requests || api.limit || "Illimité",
-    version: api.version || api.v || "v1.0",
-    endpoints: api.endpoints || api.routes || api.paths || ["/"]
+    requests: api.requests || api.limit || "Illimité"
   };
 }
 
@@ -866,7 +813,6 @@ function grouperParCategorie(apis) {
 function creerNavigation(categoriesList) {
   const nav = document.getElementById('navCategories');
   nav.innerHTML = '<button class="btn-categorie active" data-cat="all">Tous</button>';
-  
   categoriesList.forEach(cat => {
     const btn = document.createElement('button');
     btn.className = 'btn-categorie';
@@ -880,9 +826,7 @@ function creerNavigation(categoriesList) {
 function filtrerCategorie(categorie, btnElement) {
   document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
   btnElement.classList.add('active');
-  
-  const sections = document.querySelectorAll('.section-categorie');
-  sections.forEach(section => {
+  document.querySelectorAll('.section-categorie').forEach(section => {
     if (categorie === 'all' || section.dataset.category === categorie) {
       section.style.display = 'block';
       section.style.animation = 'none';
@@ -893,15 +837,11 @@ function filtrerCategorie(categorie, btnElement) {
   });
 }
 
-// ⭐⭐⭐ CARTE API CARRÉE - بدون auth و format و URL ⭐⭐⭐
+// ⭐⭐⭐ CARTE API بدون endpoints ولا "/" ولا فراغات ⭐⭐⭐
 function creerCarteAPI(api) {
   const carte = document.createElement('div');
   carte.className = 'carte-api';
   carte.style.animationDelay = Math.random() * 0.5 + 's';
-  
-  const endpointsHTML = api.endpoints.slice(0, 3).map(ep => 
-    `<span class="badge-endpoint">${ep}</span>`
-  ).join('');
   
   carte.innerHTML = `
     <div class="en-tete-carte">
@@ -914,10 +854,8 @@ function creerCarteAPI(api) {
         </span>
       </div>
     </div>
-    
     <div class="corps-carte">
       <p class="description-api">${api.info}</p>
-      
       <div class="metriques">
         <div class="metrique">
           <span class="valeur-metrique">${api.latency}</span>
@@ -932,18 +870,6 @@ function creerCarteAPI(api) {
           <span class="label-metrique">Requêtes</span>
         </div>
       </div>
-      
-      <div class="section-endpoints">
-        <div class="titre-endpoints">
-          <i class="fas fa-route"></i> Endpoints
-        </div>
-        <div class="liste-endpoints">
-          ${endpointsHTML}
-          ${api.endpoints.length > 3 ? `<span class="badge-endpoint">+${api.endpoints.length - 3}</span>` : ''}
-        </div>
-      </div>
-      
-      <!-- ⭐ أزرار النسخ والفتح - بدون حقل URL ⭐ -->
       <div class="actions-api">
         <button class="btn-copier-api" onclick="copierURL('${api.url[0]}', this)">
           <i class="fas fa-copy"></i> Copier
@@ -954,7 +880,6 @@ function creerCarteAPI(api) {
       </div>
     </div>
   `;
-  
   return carte;
 }
 
@@ -962,9 +887,7 @@ function creerSectionCategorie(categorie, apis) {
   const section = document.createElement('div');
   section.className = 'section-categorie';
   section.dataset.category = categorie;
-  
   const icone = getIconeCategorie(categorie);
-  
   section.innerHTML = `
     <h2 class="titre-categorie">
       <div class="icone-categorie">
@@ -975,12 +898,8 @@ function creerSectionCategorie(categorie, apis) {
     </h2>
     <div class="grille-cartes" id="grille-${categorie.replace(/\s+/g, '-')}"></div>
   `;
-  
   const grille = section.querySelector('.grille-cartes');
-  apis.forEach(api => {
-    grille.appendChild(creerCarteAPI(api));
-  });
-  
+  apis.forEach(api => grille.appendChild(creerCarteAPI(api)));
   return section;
 }
 
@@ -989,7 +908,6 @@ function copierURL(url, btn) {
   const originalHTML = btn.innerHTML;
   btn.innerHTML = '<i class="fas fa-check"></i> Copié !';
   btn.classList.add('copie');
-  
   setTimeout(() => {
     btn.innerHTML = originalHTML;
     btn.classList.remove('copie');
@@ -1005,8 +923,7 @@ function ouvrirAPI(url) {
 }
 
 function afficherErreur(message) {
-  const container = document.getElementById('mainContainer');
-  container.innerHTML = `
+  document.getElementById('mainContainer').innerHTML = `
     <div class="message-erreur">
       <i class="fas fa-exclamation-triangle"></i>
       <h3 style="color: #ff4444; margin-bottom: 10px;">Erreur de Connexion</h3>
@@ -1021,47 +938,23 @@ function afficherErreur(message) {
 async function chargerAPIs() {
   try {
     const response = await fetch(CONFIG.API_URL);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     const data = await response.json();
-    
-    let apis = [];
-    if (Array.isArray(data)) {
-      apis = data;
-    } else if (data.apis || data.data || data.results || data.list) {
-      apis = data.apis || data.data || data.results || data.list;
-    } else {
-      apis = [data];
-    }
-    
+    let apis = Array.isArray(data) ? data : (data.apis || data.data || data.results || data.list || [data]);
     toutesAPIs = apis.map(formaterAPI);
-    
     document.getElementById('totalAPIs').textContent = toutesAPIs.length;
-    
     const groupe = grouperParCategorie(toutesAPIs);
     categories = Object.keys(groupe);
     document.getElementById('totalCategories').textContent = categories.length;
-    
     const statutEl = document.getElementById('statutSystem');
     statutEl.innerHTML = '●';
     statutEl.style.color = '#00ff88';
     statutEl.style.textShadow = '0 0 20px #00ff88';
-    
     creerNavigation(categories);
-    
     const container = document.getElementById('mainContainer');
     container.innerHTML = '';
-    
     if (toutesAPIs.length === 0) {
-      container.innerHTML = `
-        <div class="message-vide">
-          <i class="fas fa-inbox"></i>
-          <p>Aucune API disponible pour le moment</p>
-        </div>
-      `;
+      container.innerHTML = `<div class="message-vide"><i class="fas fa-inbox"></i><p>Aucune API disponible</p></div>`;
     } else {
       categories.forEach((cat, index) => {
         const section = creerSectionCategorie(cat, groupe[cat]);
@@ -1069,12 +962,8 @@ async function chargerAPIs() {
         container.appendChild(section);
       });
     }
-    
     document.getElementById('loader').style.opacity = '0';
-    setTimeout(() => {
-      document.getElementById('loader').style.display = 'none';
-    }, 500);
-    
+    setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
   } catch (error) {
     console.error('Erreur:', error);
     document.getElementById('statutSystem').innerHTML = '✕';
