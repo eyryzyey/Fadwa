@@ -377,7 +377,7 @@ module.exports = {
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/chatai/chat?prompt=Hello%20world&template=1`,
   logo: "https://api.chatai.click/favicon.ico",
-  category: "tools",
+  category: "ai",
   info: "AI chat API with multiple personality templates and streaming response support",
   router
 };
