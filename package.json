@@ -11,7 +11,7 @@
 "cheerio": "*",
 "node-fetch": "*",
 "crypto": "*",
-"tough-cookie": "*",
+"axios-cookiejar-support": "*",
 "tough-cookie": "*"
     
   }
