@@ -17,7 +17,6 @@
   --or: #ffd700;
   --argent: #c0c0c0;
   --gradient-principal: linear-gradient(135deg, #ff6b9d 0%, #b967ff 50%, #00d4ff 100%);
-  --gradient-or: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffb347 100%);
 }
 
 * {
@@ -34,7 +33,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Loader Premium */
+/* Loader */
 .loader-container {
   position: fixed;
   top: 0;
@@ -122,7 +121,7 @@ body {
 /* Header */
 .hero-header {
   position: relative;
-  padding: 80px 20px 60px;
+  padding: 80px 20px 40px;
   text-align: center;
   background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--noir-profond) 70%);
   border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -191,32 +190,90 @@ body {
 .ligne-decoration::before { left: -20px; }
 .ligne-decoration::after { right: -20px; }
 
-.stats-header {
+/* ⭐ BARRE DE STATISTIQUES HORIZONTALE ⭐ */
+.barre-stats {
   display: flex;
   justify-content: center;
-  gap: 50px;
-  margin-top: 30px;
+  align-items: center;
+  gap: 0;
+  margin-top: 40px;
   position: relative;
   z-index: 1;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .stat-item {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 40px;
+  min-width: 180px;
 }
 
 .stat-valeur {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: var(--or-rose);
-  display: block;
+  background: var(--gradient-principal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  font-family: 'Playfair Display', serif;
 }
 
 .stat-label {
-  font-size: 0.8rem;
-  color: #666;
+  font-size: 0.75rem;
+  color: #888;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  font-weight: 500;
 }
+
+/* Séparateurs horizontaux élégants */
+.separateur-stat {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, rgba(255,107,157,0.5), transparent);
+  position: relative;
+}
+
+.separateur-stat::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: var(--gradient-principal);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--or-rose);
+}
+
+/* Ligne horizontale décorative sous les stats */
+.ligne-horizontale-stats {
+  width: 100%;
+  max-width: 600px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,107,157,0.3), rgba(185,103,255,0.3), rgba(0,212,255,0.3), transparent);
+  margin: 30px auto 0;
+  position: relative;
+}
+
+.ligne-horizontale-stats::before,
+.ligne-horizontale-stats::after {
+  content: '▸';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--or-rose);
+  font-size: 10px;
+}
+
+.ligne-horizontale-stats::before { left: 20%; }
+.ligne-horizontale-stats::after { right: 20%; color: var(--bleu-cyan); }
 
 /* Navigation */
 .nav-categories {
@@ -266,7 +323,6 @@ body {
   min-height: 400px;
 }
 
-/* Message vide */
 .message-vide {
   text-align: center;
   padding: 100px 20px;
@@ -339,17 +395,17 @@ body {
   border-radius: 20px;
 }
 
-/* Grille */
+/* ⭐⭐⭐ GRILLE CARRÉE ⭐⭐⭐ */
 .grille-cartes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 30px;
 }
 
-/* Carte API */
+/* ⭐⭐⭐ CARTE API CARRÉE ⭐⭐⭐ */
 .carte-api {
   background: linear-gradient(145deg, #161616, #1a1a1a);
-  border-radius: 24px;
+  border-radius: 20px; /* مربع مع زوايا ناعمة */
   border: 1px solid rgba(255,255,255,0.08);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
@@ -357,6 +413,8 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
+  aspect-ratio: 1 / 1; /* ⭐ يجعلها مربعة ⭐ */
+  max-height: 450px;
 }
 
 .carte-api::before {
@@ -382,18 +440,18 @@ body {
 }
 
 .en-tete-carte {
-  padding: 25px;
+  padding: 20px;
   background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.05) 100%);
   border-bottom: 1px solid rgba(255,255,255,0.05);
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 .logo-api {
-  width: 70px;
-  height: 70px;
-  border-radius: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
   object-fit: cover;
   border: 3px solid transparent;
   background: linear-gradient(var(--noir-elegant), var(--noir-elegant)) padding-box,
@@ -406,9 +464,9 @@ body {
 }
 
 .nom-api {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   background: linear-gradient(135deg, #fff 0%, var(--argent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -418,11 +476,11 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
+  padding: 5px 12px;
   background: rgba(0,212,255,0.15);
   color: var(--bleu-cyan);
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -431,8 +489,8 @@ body {
 
 .badge-statut.actif::before {
   content: '';
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background: #00ff88;
   border-radius: 50%;
   box-shadow: 0 0 10px #00ff88;
@@ -445,159 +503,68 @@ body {
 }
 
 .corps-carte {
-  padding: 25px;
+  padding: 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .description-api {
   color: #a0a0a0;
-  font-size: 0.95rem;
-  line-height: 1.7;
-  margin-bottom: 20px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Métriques */
+/* ⭐⭐⭐ MÉTRIQUES COMPACTES ⭐⭐⭐ */
 .metriques {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .metrique {
   background: rgba(255,255,255,0.03);
-  padding: 15px;
-  border-radius: 12px;
+  padding: 12px 8px;
+  border-radius: 10px;
   text-align: center;
   border: 1px solid rgba(255,255,255,0.05);
 }
 
 .valeur-metrique {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--or-rose);
   display: block;
 }
 
 .label-metrique {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: #666;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-top: 5px;
+  margin-top: 4px;
 }
 
-/* Détails */
-.details-tech {
-  background: rgba(0,0,0,0.3);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255,255,255,0.05);
-}
-
-.ligne-detail {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.ligne-detail:last-child {
-  border-bottom: none;
-}
-
-.label-detail {
-  color: #666;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.valeur-detail {
-  color: white;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-/* URL */
-.section-url {
-  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.1) 100%);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255,107,157,0.2);
-}
-
-.label-url {
-  font-size: 0.8rem;
-  color: var(--or-rose);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.conteneur-url {
-  display: flex;
-  gap: 10px;
-  align-items: stretch;
-}
-
-.input-url {
-  flex: 1;
-  background: rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: var(--bleu-cyan);
-  padding: 12px 15px;
-  border-radius: 10px;
-  font-family: 'Courier New', monospace;
-  font-size: 0.8rem;
-  outline: none;
-  word-break: break-all;
-  display: flex;
-  align-items: center;
-}
-
-.btn-copier {
-  padding: 12px 20px;
-  background: var(--gradient-principal);
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-}
-
-.btn-copier:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 30px rgba(255,107,157,0.4);
-}
-
-.btn-copier.copie {
-  background: linear-gradient(135deg, #00ff88, #00cc6a);
-}
-
-/* Endpoints */
+/* ⭐⭐⭐ ENDPOINTS ⭐⭐⭐ */
 .section-endpoints {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  flex: 1;
+  overflow: hidden;
 }
 
 .titre-endpoints {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--violet-neon);
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -606,43 +573,73 @@ body {
 .liste-endpoints {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .badge-endpoint {
   background: rgba(185,103,255,0.15);
   color: var(--violet-neon);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
   font-family: 'Courier New', monospace;
   border: 1px solid rgba(185,103,255,0.3);
 }
 
-/* Bouton Explorer */
-.btn-explorer {
-  width: 100%;
-  padding: 15px;
-  background: transparent;
-  border: 2px solid rgba(255,255,255,0.2);
-  color: white;
+/* ⭐⭐⭐ BOUTONS D'ACTION ⭐⭐⭐ */
+.actions-api {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.btn-copier-api {
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(255,107,157,0.2), rgba(185,103,255,0.2));
+  border: 1px solid rgba(255,107,157,0.3);
   border-radius: 12px;
+  color: white;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 0.9rem;
-  margin-top: auto;
+  gap: 8px;
+  font-size: 0.85rem;
 }
 
-.btn-explorer:hover {
+.btn-copier-api:hover {
   background: var(--gradient-principal);
   border-color: transparent;
+  transform: translateY(-2px);
+}
+
+.btn-copier-api.copie {
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  border-color: transparent;
+}
+
+.btn-ouvrir-api {
+  padding: 12px;
+  background: transparent;
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 12px;
+  color: var(--bleu-cyan);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.btn-ouvrir-api:hover {
+  background: rgba(0,212,255,0.1);
+  border-color: var(--bleu-cyan);
   transform: translateY(-2px);
 }
 
@@ -689,8 +686,37 @@ body {
   .logo-principal { font-size: 2.5rem; }
   .grille-cartes { grid-template-columns: 1fr; }
   .titre-categorie { font-size: 1.8rem; }
-  .metriques { grid-template-columns: 1fr; }
-  .stats-header { flex-direction: column; gap: 20px; }
+  
+  .barre-stats {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .separateur-stat {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,107,157,0.5), transparent);
+  }
+  
+  .separateur-stat::before {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .stat-item {
+    padding: 15px 30px;
+    min-width: auto;
+  }
+  
+  .stat-valeur {
+    font-size: 2rem;
+  }
+  
+  .carte-api {
+    aspect-ratio: auto;
+    max-height: none;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -725,20 +751,30 @@ body {
   <p class="sous-titre">Collection Dynamique</p>
   <div class="ligne-decoration"></div>
   
-  <div class="stats-header">
+  <!-- BARRE DE STATISTIQUES HORIZONTALE -->
+  <div class="barre-stats">
     <div class="stat-item">
       <span class="stat-valeur" id="totalAPIs">0</span>
       <span class="stat-label">APIs Disponibles</span>
     </div>
+    
+    <div class="separateur-stat"></div>
+    
     <div class="stat-item">
       <span class="stat-valeur" id="totalCategories">0</span>
       <span class="stat-label">Catégories</span>
     </div>
+    
+    <div class="separateur-stat"></div>
+    
     <div class="stat-item">
-      <span class="stat-valeur" id="statutSystem">✓</span>
+      <span class="stat-valeur" id="statutSystem" style="color: #00ff88;">●</span>
       <span class="stat-label">Système Actif</span>
     </div>
   </div>
+  
+  <!-- Ligne horizontale décorative -->
+  <div class="ligne-horizontale-stats"></div>
 </header>
 
 <!-- Navigation -->
@@ -761,12 +797,9 @@ body {
 </footer>
 
 <script>
-// ⚙️ CONFIGURATION - Modifier selon ton projet
+// Configuration
 const CONFIG = {
-  // URL de ton API (modifie selon ton projet)
-  API_URL: "/api/list",  // ou "https://ton-domaine.com/api/list"
-  
-  // Icônes par catégorie (s'adapte automatiquement)
+  API_URL: "/api/list",
   ICONES_CATEGORIES: {
     "social": "fa-share-nodes",
     "media": "fa-photo-film",
@@ -781,11 +814,9 @@ const CONFIG = {
   }
 };
 
-// État global
 let toutesAPIs = [];
 let categories = [];
 
-// Créer particules
 function creerParticules() {
   const container = document.getElementById('particles');
   for (let i = 0; i < 50; i++) {
@@ -798,7 +829,6 @@ function creerParticules() {
   }
 }
 
-// Obtenir icône pour catégorie
 function getIconeCategorie(categorie) {
   const cat = categorie.toLowerCase();
   for (const [key, icon] of Object.entries(CONFIG.ICONES_CATEGORIES)) {
@@ -807,27 +837,23 @@ function getIconeCategorie(categorie) {
   return CONFIG.ICONES_CATEGORIES.default;
 }
 
-// Formater les données API (s'adapte à n'importe quel format)
 function formaterAPI(api) {
   return {
     id: api.id || Math.random().toString(36),
     name: api.name || api.title || api.nom || "API Sans Nom",
     category: api.category || api.categorie || api.type || "Général",
     info: api.info || api.description || api.desc || "Aucune description disponible",
-    logo: api.logo || api.icon || api.image || "https://via.placeholder.com/70/161616/ff6b9d?text=API",
+    logo: api.logo || api.icon || api.image || "https://via.placeholder.com/60/161616/ff6b9d?text=API",
     url: Array.isArray(api.url) ? api.url : [api.url || api.endpoint || api.link || "#"],
     method: api.method || api.httpMethod || "GET",
     latency: api.latency || api.latence || api.speed || "N/A",
     uptime: api.uptime || api.disponibilite || "99%",
     requests: api.requests || api.limit || "Illimité",
-    auth: api.auth || api.authType || api.authentication || "None",
-    format: api.format || api.responseType || "JSON",
     version: api.version || api.v || "v1.0",
     endpoints: api.endpoints || api.routes || api.paths || ["/"]
   };
 }
 
-// Grouper par catégorie
 function grouperParCategorie(apis) {
   return apis.reduce((acc, api) => {
     const cat = api.category;
@@ -837,10 +863,8 @@ function grouperParCategorie(apis) {
   }, {});
 }
 
-// Créer navigation
 function creerNavigation(categoriesList) {
   const nav = document.getElementById('navCategories');
-  // Vider sauf "Tous"
   nav.innerHTML = '<button class="btn-categorie active" data-cat="all">Tous</button>';
   
   categoriesList.forEach(cat => {
@@ -853,7 +877,6 @@ function creerNavigation(categoriesList) {
   });
 }
 
-// Filtrer
 function filtrerCategorie(categorie, btnElement) {
   document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
   btnElement.classList.add('active');
@@ -870,20 +893,20 @@ function filtrerCategorie(categorie, btnElement) {
   });
 }
 
-// Créer carte API
+// ⭐⭐⭐ CARTE API CARRÉE - بدون auth و format و URL ⭐⭐⭐
 function creerCarteAPI(api) {
   const carte = document.createElement('div');
   carte.className = 'carte-api';
   carte.style.animationDelay = Math.random() * 0.5 + 's';
   
-  const endpointsHTML = api.endpoints.map(ep => 
+  const endpointsHTML = api.endpoints.slice(0, 3).map(ep => 
     `<span class="badge-endpoint">${ep}</span>`
   ).join('');
   
   carte.innerHTML = `
     <div class="en-tete-carte">
       <img class="logo-api" src="${api.logo}" alt="${api.name}" 
-           onerror="this.src='https://via.placeholder.com/70/161616/ff6b9d?text=${api.name.charAt(0)}'">
+           onerror="this.src='https://via.placeholder.com/60/161616/ff6b9d?text=${api.name.charAt(0)}'">
       <div class="info-en-tete">
         <h3 class="nom-api">${api.name}</h3>
         <span class="badge-statut actif">
@@ -910,54 +933,31 @@ function creerCarteAPI(api) {
         </div>
       </div>
       
-      <div class="details-tech">
-        <div class="ligne-detail">
-          <span class="label-detail"><i class="fas fa-code"></i> Méthode</span>
-          <span class="valeur-detail" style="color: ${api.method === 'GET' ? '#00ff88' : '#ff6b9d'}">${api.method}</span>
-        </div>
-        <div class="ligne-detail">
-          <span class="label-detail"><i class="fas fa-lock"></i> Auth</span>
-          <span class="valeur-detail">${api.auth}</span>
-        </div>
-        <div class="ligne-detail">
-          <span class="label-detail"><i class="fas fa-file-code"></i> Format</span>
-          <span class="valeur-detail">${api.format}</span>
-        </div>
-        <div class="ligne-detail">
-          <span class="label-detail"><i class="fas fa-tag"></i> Version</span>
-          <span class="valeur-detail" style="color: var(--bleu-cyan)">${api.version}</span>
-        </div>
-      </div>
-      
       <div class="section-endpoints">
         <div class="titre-endpoints">
-          <i class="fas fa-route"></i> Endpoints Disponibles
+          <i class="fas fa-route"></i> Endpoints
         </div>
         <div class="liste-endpoints">
           ${endpointsHTML}
+          ${api.endpoints.length > 3 ? `<span class="badge-endpoint">+${api.endpoints.length - 3}</span>` : ''}
         </div>
       </div>
       
-      <div class="section-url">
-        <span class="label-url">URL Principale</span>
-        <div class="conteneur-url">
-          <div class="input-url" id="url-${api.id}">${api.url[0]}</div>
-          <button class="btn-copier" onclick="copierURL('${api.url[0]}', this)">
-            <i class="fas fa-copy"></i>
-          </button>
-        </div>
+      <!-- ⭐ أزرار النسخ والفتح - بدون حقل URL ⭐ -->
+      <div class="actions-api">
+        <button class="btn-copier-api" onclick="copierURL('${api.url[0]}', this)">
+          <i class="fas fa-copy"></i> Copier
+        </button>
+        <button class="btn-ouvrir-api" onclick="ouvrirAPI('${api.url[0]}')">
+          <i class="fas fa-external-link-alt"></i> Ouvrir
+        </button>
       </div>
-      
-      <button class="btn-explorer" onclick="testerAPI('${api.url[0]}')">
-        <i class="fas fa-play"></i> Tester l'API
-      </button>
     </div>
   `;
   
   return carte;
 }
 
-// Créer section catégorie
 function creerSectionCategorie(categorie, apis) {
   const section = document.createElement('div');
   section.className = 'section-categorie';
@@ -984,11 +984,10 @@ function creerSectionCategorie(categorie, apis) {
   return section;
 }
 
-// Copier URL
 function copierURL(url, btn) {
   navigator.clipboard.writeText(url);
   const originalHTML = btn.innerHTML;
-  btn.innerHTML = '<i class="fas fa-check"></i>';
+  btn.innerHTML = '<i class="fas fa-check"></i> Copié !';
   btn.classList.add('copie');
   
   setTimeout(() => {
@@ -997,16 +996,14 @@ function copierURL(url, btn) {
   }, 2000);
 }
 
-// Tester API
-function testerAPI(url) {
+function ouvrirAPI(url) {
   if (url === "#" || !url) {
-    alert("URL non disponible pour le test");
+    alert("URL non disponible");
     return;
   }
   window.open(url, '_blank');
 }
 
-// Afficher erreur
 function afficherErreur(message) {
   const container = document.getElementById('mainContainer');
   container.innerHTML = `
@@ -1021,7 +1018,6 @@ function afficherErreur(message) {
   `;
 }
 
-// Charger APIs depuis le serveur
 async function chargerAPIs() {
   try {
     const response = await fetch(CONFIG.API_URL);
@@ -1032,31 +1028,30 @@ async function chargerAPIs() {
     
     const data = await response.json();
     
-    // Gérer différents formats de réponse
     let apis = [];
     if (Array.isArray(data)) {
       apis = data;
     } else if (data.apis || data.data || data.results || data.list) {
       apis = data.apis || data.data || data.results || data.list;
     } else {
-      apis = [data]; // Si c'est un seul objet
+      apis = [data];
     }
     
-    // Formater les données
     toutesAPIs = apis.map(formaterAPI);
     
-    // Mettre à jour stats
     document.getElementById('totalAPIs').textContent = toutesAPIs.length;
     
-    // Grouper et afficher
     const groupe = grouperParCategorie(toutesAPIs);
     categories = Object.keys(groupe);
     document.getElementById('totalCategories').textContent = categories.length;
     
-    // Créer navigation
+    const statutEl = document.getElementById('statutSystem');
+    statutEl.innerHTML = '●';
+    statutEl.style.color = '#00ff88';
+    statutEl.style.textShadow = '0 0 20px #00ff88';
+    
     creerNavigation(categories);
     
-    // Afficher sections
     const container = document.getElementById('mainContainer');
     container.innerHTML = '';
     
@@ -1075,7 +1070,6 @@ async function chargerAPIs() {
       });
     }
     
-    // Cacher loader
     document.getElementById('loader').style.opacity = '0';
     setTimeout(() => {
       document.getElementById('loader').style.display = 'none';
@@ -1083,21 +1077,19 @@ async function chargerAPIs() {
     
   } catch (error) {
     console.error('Erreur:', error);
+    document.getElementById('statutSystem').innerHTML = '✕';
+    document.getElementById('statutSystem').style.color = '#ff4444';
     afficherErreur(`Impossible de charger les APIs: ${error.message}`);
     document.getElementById('loader').style.display = 'none';
   }
 }
 
-// Initialisation
 function initialiser() {
   creerParticules();
   chargerAPIs();
-  
-  // Rafraîchissement automatique toutes les 5 minutes
   setInterval(chargerAPIs, 300000);
 }
 
-// Lancer
 initialiser();
 </script>
 
