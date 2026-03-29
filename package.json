@@ -10,7 +10,9 @@
 "axios": "*",
 "cheerio": "*",
 "node-fetch": "*",
-"crypto": "*"
-
+"crypto": "*",
+"tough-cookie": "*",
+"tough-cookie": "*"
+    
   }
 }
