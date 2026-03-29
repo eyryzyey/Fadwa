@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const PORT = process.env.PORT || 9012;
 
 // 🌍 متغير عام
-global.t = "https://fadwa-iz4q2gncq-hhhhhhhh1.vercel.app";
+global.t = "https://fadwa-xi.vercel.app";
 
 // 📁 مجلد الروتات
 const routesDir = path.join(__dirname, "routes");
