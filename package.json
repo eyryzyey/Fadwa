@@ -13,6 +13,7 @@
 "crypto": "*",
 "axios-cookiejar-support": "*",
 "tough-cookie": "*",
-"https": "*"
+"https": "*",
+"mime-types": "*"
   }
 }
