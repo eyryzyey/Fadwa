@@ -16,6 +16,7 @@
 "https": "*",
 "mime-types": "*",
 "formdata-node": "*",
-"file-type": "*"
+"file-type": "*",
+"form-data": "*"
   }
 }
