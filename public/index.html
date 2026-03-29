@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Fadwa API - Collection Premium</title>
+<title>Fadwa API - Collection Dynamique</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -34,7 +34,63 @@ body {
   overflow-x: hidden;
 }
 
-/* Particules d'arrière-plan */
+/* Loader Premium */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--noir-profond);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s;
+}
+
+.loader {
+  width: 80px;
+  height: 80px;
+  border: 4px solid rgba(255,107,157,0.2);
+  border-top-color: var(--or-rose);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: relative;
+}
+
+.loader::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 4px solid transparent;
+  border-top-color: var(--violet-neon);
+  border-radius: 50%;
+  animation: spin 2s linear infinite reverse;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.texte-loader {
+  margin-top: 30px;
+  font-size: 1.2rem;
+  color: var(--argent);
+  letter-spacing: 3px;
+  animation: pulse-text 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-text {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Particules */
 .bg-particles {
   position: fixed;
   top: 0;
@@ -63,7 +119,7 @@ body {
   100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
 }
 
-/* En-tête Luxueux */
+/* Header */
 .hero-header {
   position: relative;
   padding: 80px 20px 60px;
@@ -135,7 +191,34 @@ body {
 .ligne-decoration::before { left: -20px; }
 .ligne-decoration::after { right: -20px; }
 
-/* Navigation par Catégories */
+.stats-header {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-valeur {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--or-rose);
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Navigation */
 .nav-categories {
   position: sticky;
   top: 0;
@@ -173,16 +256,30 @@ body {
   box-shadow: 0 10px 30px rgba(185,103,255,0.3);
 }
 
-/* Conteneur Principal */
+/* Contenu */
 .conteneur-principal {
   max-width: 1400px;
   margin: 0 auto;
   padding: 40px 20px;
   position: relative;
   z-index: 1;
+  min-height: 400px;
 }
 
-/* Section de Catégorie */
+/* Message vide */
+.message-vide {
+  text-align: center;
+  padding: 100px 20px;
+  color: #666;
+}
+
+.message-vide i {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: var(--violet-neon);
+}
+
+/* Sections */
 .section-categorie {
   margin-bottom: 60px;
   opacity: 0;
@@ -232,23 +329,34 @@ body {
   box-shadow: 0 10px 30px rgba(255,107,157,0.3);
 }
 
-/* Grille de Cartes */
+.compteur-api {
+  margin-left: auto;
+  font-size: 1rem;
+  color: #666;
+  font-family: 'Inter';
+  background: rgba(255,255,255,0.05);
+  padding: 8px 20px;
+  border-radius: 20px;
+}
+
+/* Grille */
 .grille-cartes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 30px;
 }
 
-/* Carte API Premium */
+/* Carte API */
 .carte-api {
   background: linear-gradient(145deg, #161616, #1a1a1a);
   border-radius: 24px;
-  padding: 0;
   border: 1px solid rgba(255,255,255,0.08);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
   position: relative;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
 }
 
 .carte-api::before {
@@ -298,7 +406,7 @@ body {
 }
 
 .nom-api {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 8px;
   background: linear-gradient(135deg, #fff 0%, var(--argent) 100%);
@@ -338,6 +446,9 @@ body {
 
 .corps-carte {
   padding: 25px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .description-api {
@@ -364,21 +475,21 @@ body {
 }
 
 .valeur-metrique {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--or-rose);
   display: block;
 }
 
 .label-metrique {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: #666;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-top: 5px;
 }
 
-/* Détails Techniques */
+/* Détails */
 .details-tech {
   background: rgba(0,0,0,0.3);
   border-radius: 12px;
@@ -413,7 +524,7 @@ body {
   font-size: 0.9rem;
 }
 
-/* URL Section */
+/* URL */
 .section-url {
   background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.1) 100%);
   border-radius: 16px;
@@ -434,7 +545,7 @@ body {
 .conteneur-url {
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: stretch;
 }
 
 .input-url {
@@ -445,9 +556,11 @@ body {
   padding: 12px 15px;
   border-radius: 10px;
   font-family: 'Courier New', monospace;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   outline: none;
   word-break: break-all;
+  display: flex;
+  align-items: center;
 }
 
 .btn-copier {
@@ -474,6 +587,38 @@ body {
   background: linear-gradient(135deg, #00ff88, #00cc6a);
 }
 
+/* Endpoints */
+.section-endpoints {
+  margin-bottom: 20px;
+}
+
+.titre-endpoints {
+  font-size: 0.8rem;
+  color: var(--violet-neon);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.liste-endpoints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge-endpoint {
+  background: rgba(185,103,255,0.15);
+  color: var(--violet-neon);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-family: 'Courier New', monospace;
+  border: 1px solid rgba(185,103,255,0.3);
+}
+
 /* Bouton Explorer */
 .btn-explorer {
   width: 100%;
@@ -492,12 +637,28 @@ body {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 0.9rem;
+  margin-top: auto;
 }
 
 .btn-explorer:hover {
   background: var(--gradient-principal);
   border-color: transparent;
   transform: translateY(-2px);
+}
+
+/* Erreur */
+.message-erreur {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(255,0,0,0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(255,0,0,0.3);
+}
+
+.message-erreur i {
+  font-size: 3rem;
+  color: #ff4444;
+  margin-bottom: 20px;
 }
 
 /* Footer */
@@ -529,28 +690,9 @@ body {
   .grille-cartes { grid-template-columns: 1fr; }
   .titre-categorie { font-size: 1.8rem; }
   .metriques { grid-template-columns: 1fr; }
-  .nav-categories { gap: 10px; }
-  .btn-categorie { padding: 10px 18px; font-size: 0.8rem; }
+  .stats-header { flex-direction: column; gap: 20px; }
 }
 
-/* Animation d'entrée */
-.carte-api {
-  animation: slideIn 0.6s ease-out forwards;
-  opacity: 0;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Scrollbar personnalisée */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -563,23 +705,40 @@ body {
   background: var(--gradient-principal);
   border-radius: 5px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--or-rose);
-}
 </style>
 </head>
 
 <body>
 
-<!-- Particules d'arrière-plan -->
+<!-- Loader -->
+<div class="loader-container" id="loader">
+  <div class="loader"></div>
+  <div class="texte-loader">Chargement des APIs...</div>
+</div>
+
+<!-- Particules -->
 <div class="bg-particles" id="particles"></div>
 
-<!-- En-tête -->
+<!-- Header -->
 <header class="hero-header">
   <h1 class="logo-principal">Fadwa API</h1>
-  <p class="sous-titre">Collection Premium d'Interfaces</p>
+  <p class="sous-titre">Collection Dynamique</p>
   <div class="ligne-decoration"></div>
+  
+  <div class="stats-header">
+    <div class="stat-item">
+      <span class="stat-valeur" id="totalAPIs">0</span>
+      <span class="stat-label">APIs Disponibles</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-valeur" id="totalCategories">0</span>
+      <span class="stat-label">Catégories</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-valeur" id="statutSystem">✓</span>
+      <span class="stat-label">Système Actif</span>
+    </div>
+  </div>
 </header>
 
 <!-- Navigation -->
@@ -587,17 +746,46 @@ body {
   <button class="btn-categorie active" data-cat="all">Tous</button>
 </nav>
 
-<!-- Contenu Principal -->
-<main class="conteneur-principal" id="mainContainer"></main>
+<!-- Contenu -->
+<main class="conteneur-principal" id="mainContainer">
+  <div class="message-vide" id="messageVide">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Chargement en cours...</p>
+  </div>
+</main>
 
 <!-- Footer -->
 <footer class="footer-luxe">
   <div class="texte-footer">Fadwa API Collection</div>
-  <p class="copyright">© 2026 - Design Premium Français</p>
+  <p class="copyright">© 2026 - Système Dynamique Français</p>
 </footer>
 
 <script>
-// Création des particules
+// ⚙️ CONFIGURATION - Modifier selon ton projet
+const CONFIG = {
+  // URL de ton API (modifie selon ton projet)
+  API_URL: "/api/list",  // ou "https://ton-domaine.com/api/list"
+  
+  // Icônes par catégorie (s'adapte automatiquement)
+  ICONES_CATEGORIES: {
+    "social": "fa-share-nodes",
+    "media": "fa-photo-film",
+    "data": "fa-database",
+    "finance": "fa-chart-line",
+    "ai": "fa-brain",
+    "ml": "fa-robot",
+    "nlp": "fa-language",
+    "tools": "fa-screwdriver-wrench",
+    "utility": "fa-bolt",
+    "default": "fa-code"
+  }
+};
+
+// État global
+let toutesAPIs = [];
+let categories = [];
+
+// Créer particules
 function creerParticules() {
   const container = document.getElementById('particles');
   for (let i = 0; i < 50; i++) {
@@ -610,128 +798,52 @@ function creerParticules() {
   }
 }
 
-// Données API simulées (remplace par ton vrai endpoint)
-const donneesAPI = [
-  {
-    id: 1,
-    name: "Instagram Downloader",
-    category: "Social Media",
-    info: "Téléchargez photos, vidéos et stories Instagram en haute qualité sans watermark",
-    logo: "https://cdn-icons-png.flaticon.com/512/174/174855.png",
-    url: ["https://api.fadwa.com/instagram/v1/download"],
-    method: "GET",
-    latency: "120ms",
-    uptime: "99.9%",
-    requests: "50K/jour",
-    auth: "API Key",
-    format: "JSON",
-    version: "v1.2",
-    endpoints: ["/download", "/info", "/stories"]
-  },
-  {
-    id: 2,
-    name: "TikTok API",
-    category: "Social Media",
-    info: "Extraction de vidéos TikTok sans logo avec métadonnées complètes",
-    logo: "https://cdn-icons-png.flaticon.com/512/3046/3046121.png",
-    url: ["https://api.fadwa.com/tiktok/v2/media"],
-    method: "POST",
-    latency: "95ms",
-    uptime: "99.8%",
-    requests: "75K/jour",
-    auth: "OAuth 2.0",
-    format: "JSON",
-    version: "v2.1",
-    endpoints: ["/media", "/user", "/trending"]
-  },
-  {
-    id: 3,
-    name: "Weather Pro",
-    category: "Data",
-    info: "Prévisions météo précises globales avec alertes en temps réel",
-    logo: "https://cdn-icons-png.flaticon.com/512/1163/1163657.png",
-    url: ["https://api.fadwa.com/weather/v1/current"],
-    method: "GET",
-    latency: "45ms",
-    uptime: "99.99%",
-    requests: "100K/jour",
-    auth: "API Key",
-    format: "JSON/XML",
-    version: "v1.5",
-    endpoints: ["/current", "/forecast", "/alerts"]
-  },
-  {
-    id: 4,
-    name: "Currency Exchange",
-    category: "Finance",
-    info: "Taux de change en temps réel avec historique et conversions",
-    logo: "https://cdn-icons-png.flaticon.com/512/2922/2922506.png",
-    url: ["https://api.fadwa.com/finance/v1/rates"],
-    method: "GET",
-    latency: "30ms",
-    uptime: "100%",
-    requests: "200K/jour",
-    auth: "None",
-    format: "JSON",
-    version: "v1.0",
-    endpoints: ["/rates", "/convert", "/history"]
-  },
-  {
-    id: 5,
-    name: "AI Image Gen",
-    category: "AI/ML",
-    info: "Génération d'images par IA avec styles artistiques variés",
-    logo: "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
-    url: ["https://api.fadwa.com/ai/v1/generate"],
-    method: "POST",
-    latency: "2.5s",
-    uptime: "98.5%",
-    requests: "10K/jour",
-    auth: "Bearer Token",
-    format: "JSON/Base64",
-    version: "v1.3",
-    endpoints: ["/generate", "/edit", "/upscale"]
-  },
-  {
-    id: 6,
-    name: "Translate Pro",
-    category: "AI/ML",
-    info: "Traduction neuronale supportant 100+ langues avec contexte",
-    logo: "https://cdn-icons-png.flaticon.com/512/484/484633.png",
-    url: ["https://api.fadwa.com/nlp/v1/translate"],
-    method: "POST",
-    latency: "150ms",
-    uptime: "99.7%",
-    requests: "30K/jour",
-    auth: "API Key",
-    format: "JSON",
-    version: "v2.0",
-    endpoints: ["/translate", "/detect", "/romanize"]
+// Obtenir icône pour catégorie
+function getIconeCategorie(categorie) {
+  const cat = categorie.toLowerCase();
+  for (const [key, icon] of Object.entries(CONFIG.ICONES_CATEGORIES)) {
+    if (cat.includes(key)) return icon;
   }
-];
+  return CONFIG.ICONES_CATEGORIES.default;
+}
 
-// Regrouper par catégorie
-function grouperParCategorie(data) {
-  return data.reduce((acc, api) => {
-    if (!acc[api.category]) acc[api.category] = [];
-    acc[api.category].push(api);
+// Formater les données API (s'adapte à n'importe quel format)
+function formaterAPI(api) {
+  return {
+    id: api.id || Math.random().toString(36),
+    name: api.name || api.title || api.nom || "API Sans Nom",
+    category: api.category || api.categorie || api.type || "Général",
+    info: api.info || api.description || api.desc || "Aucune description disponible",
+    logo: api.logo || api.icon || api.image || "https://via.placeholder.com/70/161616/ff6b9d?text=API",
+    url: Array.isArray(api.url) ? api.url : [api.url || api.endpoint || api.link || "#"],
+    method: api.method || api.httpMethod || "GET",
+    latency: api.latency || api.latence || api.speed || "N/A",
+    uptime: api.uptime || api.disponibilite || "99%",
+    requests: api.requests || api.limit || "Illimité",
+    auth: api.auth || api.authType || api.authentication || "None",
+    format: api.format || api.responseType || "JSON",
+    version: api.version || api.v || "v1.0",
+    endpoints: api.endpoints || api.routes || api.paths || ["/"]
+  };
+}
+
+// Grouper par catégorie
+function grouperParCategorie(apis) {
+  return apis.reduce((acc, api) => {
+    const cat = api.category;
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(api);
     return acc;
   }, {});
 }
 
-// Icônes par catégorie
-const iconesCategories = {
-  "Social Media": "fa-share-nodes",
-  "Data": "fa-database",
-  "Finance": "fa-chart-line",
-  "AI/ML": "fa-brain",
-  "default": "fa-code"
-};
-
 // Créer navigation
-function creerNavigation(categories) {
+function creerNavigation(categoriesList) {
   const nav = document.getElementById('navCategories');
-  categories.forEach(cat => {
+  // Vider sauf "Tous"
+  nav.innerHTML = '<button class="btn-categorie active" data-cat="all">Tous</button>';
+  
+  categoriesList.forEach(cat => {
     const btn = document.createElement('button');
     btn.className = 'btn-categorie';
     btn.dataset.cat = cat;
@@ -741,7 +853,7 @@ function creerNavigation(categories) {
   });
 }
 
-// Filtrer par catégorie
+// Filtrer
 function filtrerCategorie(categorie, btnElement) {
   document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
   btnElement.classList.add('active');
@@ -764,11 +876,14 @@ function creerCarteAPI(api) {
   carte.className = 'carte-api';
   carte.style.animationDelay = Math.random() * 0.5 + 's';
   
-  const iconeCat = iconesCategories[api.category] || iconesCategories.default;
+  const endpointsHTML = api.endpoints.map(ep => 
+    `<span class="badge-endpoint">${ep}</span>`
+  ).join('');
   
   carte.innerHTML = `
     <div class="en-tete-carte">
-      <img class="logo-api" src="${api.logo}" alt="${api.name}" onerror="this.src='https://via.placeholder.com/70'">
+      <img class="logo-api" src="${api.logo}" alt="${api.name}" 
+           onerror="this.src='https://via.placeholder.com/70/161616/ff6b9d?text=${api.name.charAt(0)}'">
       <div class="info-en-tete">
         <h3 class="nom-api">${api.name}</h3>
         <span class="badge-statut actif">
@@ -801,7 +916,7 @@ function creerCarteAPI(api) {
           <span class="valeur-detail" style="color: ${api.method === 'GET' ? '#00ff88' : '#ff6b9d'}">${api.method}</span>
         </div>
         <div class="ligne-detail">
-          <span class="label-detail"><i class="fas fa-lock"></i> Authentification</span>
+          <span class="label-detail"><i class="fas fa-lock"></i> Auth</span>
           <span class="valeur-detail">${api.auth}</span>
         </div>
         <div class="ligne-detail">
@@ -814,18 +929,27 @@ function creerCarteAPI(api) {
         </div>
       </div>
       
+      <div class="section-endpoints">
+        <div class="titre-endpoints">
+          <i class="fas fa-route"></i> Endpoints Disponibles
+        </div>
+        <div class="liste-endpoints">
+          ${endpointsHTML}
+        </div>
+      </div>
+      
       <div class="section-url">
-        <span class="label-url">Endpoint Principal</span>
+        <span class="label-url">URL Principale</span>
         <div class="conteneur-url">
           <div class="input-url" id="url-${api.id}">${api.url[0]}</div>
           <button class="btn-copier" onclick="copierURL('${api.url[0]}', this)">
-            <i class="fas fa-copy"></i> Copier
+            <i class="fas fa-copy"></i>
           </button>
         </div>
       </div>
       
-      <button class="btn-explorer" onclick="ouvrirAPI('${api.url[0]}')">
-        <i class="fas fa-external-link-alt"></i> Explorer la Documentation
+      <button class="btn-explorer" onclick="testerAPI('${api.url[0]}')">
+        <i class="fas fa-play"></i> Tester l'API
       </button>
     </div>
   `;
@@ -839,7 +963,7 @@ function creerSectionCategorie(categorie, apis) {
   section.className = 'section-categorie';
   section.dataset.category = categorie;
   
-  const icone = iconesCategories[categorie] || iconesCategories.default;
+  const icone = getIconeCategorie(categorie);
   
   section.innerHTML = `
     <h2 class="titre-categorie">
@@ -847,7 +971,7 @@ function creerSectionCategorie(categorie, apis) {
         <i class="fas ${icone}"></i>
       </div>
       ${categorie}
-      <span style="font-size: 1rem; color: #666; margin-left: auto; font-family: 'Inter';">${apis.length} API${apis.length > 1 ? 's' : ''}</span>
+      <span class="compteur-api">${apis.length} API${apis.length > 1 ? 's' : ''}</span>
     </h2>
     <div class="grille-cartes" id="grille-${categorie.replace(/\s+/g, '-')}"></div>
   `;
@@ -864,7 +988,7 @@ function creerSectionCategorie(categorie, apis) {
 function copierURL(url, btn) {
   navigator.clipboard.writeText(url);
   const originalHTML = btn.innerHTML;
-  btn.innerHTML = '<i class="fas fa-check"></i> Copié !';
+  btn.innerHTML = '<i class="fas fa-check"></i>';
   btn.classList.add('copie');
   
   setTimeout(() => {
@@ -873,36 +997,104 @@ function copierURL(url, btn) {
   }, 2000);
 }
 
-// Ouvrir API
-function ouvrirAPI(url) {
+// Tester API
+function testerAPI(url) {
+  if (url === "#" || !url) {
+    alert("URL non disponible pour le test");
+    return;
+  }
   window.open(url, '_blank');
+}
+
+// Afficher erreur
+function afficherErreur(message) {
+  const container = document.getElementById('mainContainer');
+  container.innerHTML = `
+    <div class="message-erreur">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h3 style="color: #ff4444; margin-bottom: 10px;">Erreur de Connexion</h3>
+      <p>${message}</p>
+      <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 30px; background: var(--gradient-principal); border: none; border-radius: 25px; color: white; cursor: pointer;">
+        <i class="fas fa-refresh"></i> Réessayer
+      </button>
+    </div>
+  `;
+}
+
+// Charger APIs depuis le serveur
+async function chargerAPIs() {
+  try {
+    const response = await fetch(CONFIG.API_URL);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    
+    // Gérer différents formats de réponse
+    let apis = [];
+    if (Array.isArray(data)) {
+      apis = data;
+    } else if (data.apis || data.data || data.results || data.list) {
+      apis = data.apis || data.data || data.results || data.list;
+    } else {
+      apis = [data]; // Si c'est un seul objet
+    }
+    
+    // Formater les données
+    toutesAPIs = apis.map(formaterAPI);
+    
+    // Mettre à jour stats
+    document.getElementById('totalAPIs').textContent = toutesAPIs.length;
+    
+    // Grouper et afficher
+    const groupe = grouperParCategorie(toutesAPIs);
+    categories = Object.keys(groupe);
+    document.getElementById('totalCategories').textContent = categories.length;
+    
+    // Créer navigation
+    creerNavigation(categories);
+    
+    // Afficher sections
+    const container = document.getElementById('mainContainer');
+    container.innerHTML = '';
+    
+    if (toutesAPIs.length === 0) {
+      container.innerHTML = `
+        <div class="message-vide">
+          <i class="fas fa-inbox"></i>
+          <p>Aucune API disponible pour le moment</p>
+        </div>
+      `;
+    } else {
+      categories.forEach((cat, index) => {
+        const section = creerSectionCategorie(cat, groupe[cat]);
+        section.style.animationDelay = (index * 0.1) + 's';
+        container.appendChild(section);
+      });
+    }
+    
+    // Cacher loader
+    document.getElementById('loader').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('loader').style.display = 'none';
+    }, 500);
+    
+  } catch (error) {
+    console.error('Erreur:', error);
+    afficherErreur(`Impossible de charger les APIs: ${error.message}`);
+    document.getElementById('loader').style.display = 'none';
+  }
 }
 
 // Initialisation
 function initialiser() {
   creerParticules();
+  chargerAPIs();
   
-  const groupe = grouperParCategorie(donneesAPI);
-  const categories = Object.keys(groupe);
-  
-  creerNavigation(categories);
-  
-  const container = document.getElementById('mainContainer');
-  categories.forEach((cat, index) => {
-    const section = creerSectionCategorie(cat, groupe[cat]);
-    section.style.animationDelay = (index * 0.2) + 's';
-    container.appendChild(section);
-  });
-  
-  // Charger depuis l'API réelle si disponible
-  /*
-  fetch('/api/list')
-    .then(res => res.json())
-    .then(data => {
-      // Mettre à jour avec données réelles
-    })
-    .catch(err => console.log('Mode démonstration actif'));
-  */
+  // Rafraîchissement automatique toutes les 5 minutes
+  setInterval(chargerAPIs, 300000);
 }
 
 // Lancer
