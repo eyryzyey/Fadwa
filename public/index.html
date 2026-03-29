@@ -1,158 +1,914 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Fadwa API</title>
+<title>Fadwa API - Collection Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-body {
+:root {
+  --noir-profond: #0a0a0a;
+  --noir-elegant: #121212;
+  --or-rose: #ff6b9d;
+  --violet-neon: #b967ff;
+  --bleu-cyan: #00d4ff;
+  --or: #ffd700;
+  --argent: #c0c0c0;
+  --gradient-principal: linear-gradient(135deg, #ff6b9d 0%, #b967ff 50%, #00d4ff 100%);
+  --gradient-or: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffb347 100%);
+}
+
+* {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, #ffd6ec, #e0c3fc);
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Header */
-.header {
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--noir-profond);
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Particules d'arrière-plan */
+.bg-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--violet-neon);
+  border-radius: 50%;
+  animation: float 15s infinite;
+  box-shadow: 0 0 10px var(--violet-neon);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+}
+
+/* En-tête Luxueux */
+.hero-header {
+  position: relative;
+  padding: 80px 20px 60px;
   text-align: center;
-  padding: 25px;
-  font-size: 28px;
-  font-weight: bold;
-  color: #fff;
-  background: linear-gradient(90deg, #ff6ec4, #7873f5);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--noir-profond) 70%);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
 }
 
-/* Container */
-.container {
+.hero-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, var(--or-rose), transparent, var(--violet-neon), transparent);
+  animation: rotate 20s linear infinite;
+  opacity: 0.1;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+.logo-principal {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  background: var(--gradient-principal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 2px;
+}
+
+.sous-titre {
+  font-size: 1.2rem;
+  color: var(--argent);
+  font-weight: 300;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+.ligne-decoration {
+  width: 200px;
+  height: 2px;
+  background: var(--gradient-principal);
+  margin: 30px auto;
+  position: relative;
+  z-index: 1;
+}
+
+.ligne-decoration::before,
+.ligne-decoration::after {
+  content: '◆';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--or-rose);
+  font-size: 12px;
+}
+
+.ligne-decoration::before { left: -20px; }
+.ligne-decoration::after { right: -20px; }
+
+/* Navigation par Catégories */
+.nav-categories {
+  position: sticky;
+  top: 0;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(20px);
   padding: 20px;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn-categorie {
+  padding: 12px 25px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: var(--argent);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-categorie:hover,
+.btn-categorie.active {
+  background: var(--gradient-principal);
+  border-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(185,103,255,0.3);
+}
+
+/* Conteneur Principal */
+.conteneur-principal {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Section de Catégorie */
+.section-categorie {
+  margin-bottom: 60px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.titre-categorie {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: white;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.titre-categorie::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 3px;
+  background: var(--gradient-principal);
+  border-radius: 2px;
+}
+
+.icone-categorie {
+  width: 50px;
+  height: 50px;
+  background: var(--gradient-principal);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 10px 30px rgba(255,107,157,0.3);
+}
+
+/* Grille de Cartes */
+.grille-cartes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 30px;
+}
+
+/* Carte API Premium */
+.carte-api {
+  background: linear-gradient(145deg, #161616, #1a1a1a);
+  border-radius: 24px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.carte-api::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-principal);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.carte-api:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(255,107,157,0.3);
+  box-shadow: 0 30px 60px rgba(185,103,255,0.2);
+}
+
+.carte-api:hover::before {
+  opacity: 1;
+}
+
+.en-tete-carte {
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.05) 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
   gap: 20px;
 }
 
-/* Card */
-.card {
-  background: #fff;
+.logo-api {
+  width: 70px;
+  height: 70px;
   border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  transition: 0.3s;
-  text-align: center;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-/* Logo */
-.logo {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
   object-fit: cover;
+  border: 3px solid transparent;
+  background: linear-gradient(var(--noir-elegant), var(--noir-elegant)) padding-box,
+              var(--gradient-principal) border-box;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.info-en-tete {
+  flex: 1;
+}
+
+.nom-api {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #fff 0%, var(--argent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.badge-statut {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(0,212,255,0.15);
+  color: var(--bleu-cyan);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid rgba(0,212,255,0.3);
+}
+
+.badge-statut.actif::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #00ff88;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00ff88;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.corps-carte {
+  padding: 25px;
+}
+
+.description-api {
+  color: #a0a0a0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+/* Métriques */
+.metriques {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.metrique {
+  background: rgba(255,255,255,0.03);
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.valeur-metrique {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--or-rose);
+  display: block;
+}
+
+.label-metrique {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 5px;
+}
+
+/* Détails Techniques */
+.details-tech {
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.ligne-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.ligne-detail:last-child {
+  border-bottom: none;
+}
+
+.label-detail {
+  color: #666;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.valeur-detail {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* URL Section */
+.section-url {
+  background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(185,103,255,0.1) 100%);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,107,157,0.2);
+}
+
+.label-url {
+  font-size: 0.8rem;
+  color: var(--or-rose);
+  text-transform: uppercase;
+  letter-spacing: 2px;
   margin-bottom: 10px;
-  border: 3px solid #ff6ec4;
+  display: block;
 }
 
-/* Title */
-.card h3 {
-  margin: 5px 0;
-  color: #ff4fa3;
+.conteneur-url {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-/* Info */
-.info {
-  font-size: 14px;
-  margin: 10px 0;
-  color: #555;
-}
-
-/* URL */
-.url {
-  background: #f3f3f3;
-  padding: 10px;
+.input-url {
+  flex: 1;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--bleu-cyan);
+  padding: 12px 15px;
   border-radius: 10px;
-  font-size: 13px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  outline: none;
   word-break: break-all;
 }
 
-/* Button */
-.copy-btn {
-  margin-top: 12px;
-  width: 100%;
-  padding: 10px;
+.btn-copier {
+  padding: 12px 20px;
+  background: var(--gradient-principal);
   border: none;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #ff6ec4, #7873f5);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.copy-btn:hover {
-  opacity: 0.8;
-}
-
-/* Badge */
-.badge {
-  display: inline-block;
-  background: #ffe0f0;
-  color: #ff4fa3;
-  padding: 4px 10px;
   border-radius: 10px;
-  font-size: 12px;
-  margin-top: 5px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.btn-copier:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(255,107,157,0.4);
+}
+
+.btn-copier.copie {
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+}
+
+/* Bouton Explorer */
+.btn-explorer {
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.2);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+}
+
+.btn-explorer:hover {
+  background: var(--gradient-principal);
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.footer-luxe {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(to top, #0a0a0a, #161616);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 80px;
+}
+
+.texte-footer {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  background: var(--gradient-principal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+}
+
+.copyright {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .logo-principal { font-size: 2.5rem; }
+  .grille-cartes { grid-template-columns: 1fr; }
+  .titre-categorie { font-size: 1.8rem; }
+  .metriques { grid-template-columns: 1fr; }
+  .nav-categories { gap: 10px; }
+  .btn-categorie { padding: 10px 18px; font-size: 0.8rem; }
+}
+
+/* Animation d'entrée */
+.carte-api {
+  animation: slideIn 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--noir-profond);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-principal);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--or-rose);
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  💖 Fadwa API 💖
-</div>
+<!-- Particules d'arrière-plan -->
+<div class="bg-particles" id="particles"></div>
 
-<div class="container" id="apiContainer"></div>
+<!-- En-tête -->
+<header class="hero-header">
+  <h1 class="logo-principal">Fadwa API</h1>
+  <p class="sous-titre">Collection Premium d'Interfaces</p>
+  <div class="ligne-decoration"></div>
+</header>
+
+<!-- Navigation -->
+<nav class="nav-categories" id="navCategories">
+  <button class="btn-categorie active" data-cat="all">Tous</button>
+</nav>
+
+<!-- Contenu Principal -->
+<main class="conteneur-principal" id="mainContainer"></main>
+
+<!-- Footer -->
+<footer class="footer-luxe">
+  <div class="texte-footer">Fadwa API Collection</div>
+  <p class="copyright">© 2026 - Design Premium Français</p>
+</footer>
 
 <script>
-const API_URL = "/api/list";
-
-fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("apiContainer");
-
-    data.forEach(api => {
-      const card = document.createElement("div");
-      card.className = "card";
-
-      card.innerHTML = `
-        <img class="logo" src="${api.logo || 'https://via.placeholder.com/60'}" />
-
-        <h3>${api.name}</h3>
-        <div class="badge">${api.category}</div>
-
-        <p class="info">${api.info}</p>
-
-        <div class="url">${api.url[0] || "No URL"}</div>
-
-        <button class="copy-btn" onclick="copyUrl('${api.url[0] || ""}')">
-          📋 Copy API Link
-        </button>
-      `;
-
-      container.appendChild(card);
-    });
-  });
-
-// 📋 Copy
-function copyUrl(url) {
-  navigator.clipboard.writeText(url);
-  alert("✅ تم نسخ الرابط!");
+// Création des particules
+function creerParticules() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 15 + 's';
+    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+    container.appendChild(particle);
+  }
 }
+
+// Données API simulées (remplace par ton vrai endpoint)
+const donneesAPI = [
+  {
+    id: 1,
+    name: "Instagram Downloader",
+    category: "Social Media",
+    info: "Téléchargez photos, vidéos et stories Instagram en haute qualité sans watermark",
+    logo: "https://cdn-icons-png.flaticon.com/512/174/174855.png",
+    url: ["https://api.fadwa.com/instagram/v1/download"],
+    method: "GET",
+    latency: "120ms",
+    uptime: "99.9%",
+    requests: "50K/jour",
+    auth: "API Key",
+    format: "JSON",
+    version: "v1.2",
+    endpoints: ["/download", "/info", "/stories"]
+  },
+  {
+    id: 2,
+    name: "TikTok API",
+    category: "Social Media",
+    info: "Extraction de vidéos TikTok sans logo avec métadonnées complètes",
+    logo: "https://cdn-icons-png.flaticon.com/512/3046/3046121.png",
+    url: ["https://api.fadwa.com/tiktok/v2/media"],
+    method: "POST",
+    latency: "95ms",
+    uptime: "99.8%",
+    requests: "75K/jour",
+    auth: "OAuth 2.0",
+    format: "JSON",
+    version: "v2.1",
+    endpoints: ["/media", "/user", "/trending"]
+  },
+  {
+    id: 3,
+    name: "Weather Pro",
+    category: "Data",
+    info: "Prévisions météo précises globales avec alertes en temps réel",
+    logo: "https://cdn-icons-png.flaticon.com/512/1163/1163657.png",
+    url: ["https://api.fadwa.com/weather/v1/current"],
+    method: "GET",
+    latency: "45ms",
+    uptime: "99.99%",
+    requests: "100K/jour",
+    auth: "API Key",
+    format: "JSON/XML",
+    version: "v1.5",
+    endpoints: ["/current", "/forecast", "/alerts"]
+  },
+  {
+    id: 4,
+    name: "Currency Exchange",
+    category: "Finance",
+    info: "Taux de change en temps réel avec historique et conversions",
+    logo: "https://cdn-icons-png.flaticon.com/512/2922/2922506.png",
+    url: ["https://api.fadwa.com/finance/v1/rates"],
+    method: "GET",
+    latency: "30ms",
+    uptime: "100%",
+    requests: "200K/jour",
+    auth: "None",
+    format: "JSON",
+    version: "v1.0",
+    endpoints: ["/rates", "/convert", "/history"]
+  },
+  {
+    id: 5,
+    name: "AI Image Gen",
+    category: "AI/ML",
+    info: "Génération d'images par IA avec styles artistiques variés",
+    logo: "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
+    url: ["https://api.fadwa.com/ai/v1/generate"],
+    method: "POST",
+    latency: "2.5s",
+    uptime: "98.5%",
+    requests: "10K/jour",
+    auth: "Bearer Token",
+    format: "JSON/Base64",
+    version: "v1.3",
+    endpoints: ["/generate", "/edit", "/upscale"]
+  },
+  {
+    id: 6,
+    name: "Translate Pro",
+    category: "AI/ML",
+    info: "Traduction neuronale supportant 100+ langues avec contexte",
+    logo: "https://cdn-icons-png.flaticon.com/512/484/484633.png",
+    url: ["https://api.fadwa.com/nlp/v1/translate"],
+    method: "POST",
+    latency: "150ms",
+    uptime: "99.7%",
+    requests: "30K/jour",
+    auth: "API Key",
+    format: "JSON",
+    version: "v2.0",
+    endpoints: ["/translate", "/detect", "/romanize"]
+  }
+];
+
+// Regrouper par catégorie
+function grouperParCategorie(data) {
+  return data.reduce((acc, api) => {
+    if (!acc[api.category]) acc[api.category] = [];
+    acc[api.category].push(api);
+    return acc;
+  }, {});
+}
+
+// Icônes par catégorie
+const iconesCategories = {
+  "Social Media": "fa-share-nodes",
+  "Data": "fa-database",
+  "Finance": "fa-chart-line",
+  "AI/ML": "fa-brain",
+  "default": "fa-code"
+};
+
+// Créer navigation
+function creerNavigation(categories) {
+  const nav = document.getElementById('navCategories');
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-categorie';
+    btn.dataset.cat = cat;
+    btn.textContent = cat;
+    btn.onclick = () => filtrerCategorie(cat, btn);
+    nav.appendChild(btn);
+  });
+}
+
+// Filtrer par catégorie
+function filtrerCategorie(categorie, btnElement) {
+  document.querySelectorAll('.btn-categorie').forEach(b => b.classList.remove('active'));
+  btnElement.classList.add('active');
+  
+  const sections = document.querySelectorAll('.section-categorie');
+  sections.forEach(section => {
+    if (categorie === 'all' || section.dataset.category === categorie) {
+      section.style.display = 'block';
+      section.style.animation = 'none';
+      setTimeout(() => section.style.animation = 'fadeInUp 0.6s forwards', 10);
+    } else {
+      section.style.display = 'none';
+    }
+  });
+}
+
+// Créer carte API
+function creerCarteAPI(api) {
+  const carte = document.createElement('div');
+  carte.className = 'carte-api';
+  carte.style.animationDelay = Math.random() * 0.5 + 's';
+  
+  const iconeCat = iconesCategories[api.category] || iconesCategories.default;
+  
+  carte.innerHTML = `
+    <div class="en-tete-carte">
+      <img class="logo-api" src="${api.logo}" alt="${api.name}" onerror="this.src='https://via.placeholder.com/70'">
+      <div class="info-en-tete">
+        <h3 class="nom-api">${api.name}</h3>
+        <span class="badge-statut actif">
+          <i class="fas fa-circle"></i> Opérationnel
+        </span>
+      </div>
+    </div>
+    
+    <div class="corps-carte">
+      <p class="description-api">${api.info}</p>
+      
+      <div class="metriques">
+        <div class="metrique">
+          <span class="valeur-metrique">${api.latency}</span>
+          <span class="label-metrique">Latence</span>
+        </div>
+        <div class="metrique">
+          <span class="valeur-metrique">${api.uptime}</span>
+          <span class="label-metrique">Disponibilité</span>
+        </div>
+        <div class="metrique">
+          <span class="valeur-metrique">${api.requests}</span>
+          <span class="label-metrique">Requêtes</span>
+        </div>
+      </div>
+      
+      <div class="details-tech">
+        <div class="ligne-detail">
+          <span class="label-detail"><i class="fas fa-code"></i> Méthode</span>
+          <span class="valeur-detail" style="color: ${api.method === 'GET' ? '#00ff88' : '#ff6b9d'}">${api.method}</span>
+        </div>
+        <div class="ligne-detail">
+          <span class="label-detail"><i class="fas fa-lock"></i> Authentification</span>
+          <span class="valeur-detail">${api.auth}</span>
+        </div>
+        <div class="ligne-detail">
+          <span class="label-detail"><i class="fas fa-file-code"></i> Format</span>
+          <span class="valeur-detail">${api.format}</span>
+        </div>
+        <div class="ligne-detail">
+          <span class="label-detail"><i class="fas fa-tag"></i> Version</span>
+          <span class="valeur-detail" style="color: var(--bleu-cyan)">${api.version}</span>
+        </div>
+      </div>
+      
+      <div class="section-url">
+        <span class="label-url">Endpoint Principal</span>
+        <div class="conteneur-url">
+          <div class="input-url" id="url-${api.id}">${api.url[0]}</div>
+          <button class="btn-copier" onclick="copierURL('${api.url[0]}', this)">
+            <i class="fas fa-copy"></i> Copier
+          </button>
+        </div>
+      </div>
+      
+      <button class="btn-explorer" onclick="ouvrirAPI('${api.url[0]}')">
+        <i class="fas fa-external-link-alt"></i> Explorer la Documentation
+      </button>
+    </div>
+  `;
+  
+  return carte;
+}
+
+// Créer section catégorie
+function creerSectionCategorie(categorie, apis) {
+  const section = document.createElement('div');
+  section.className = 'section-categorie';
+  section.dataset.category = categorie;
+  
+  const icone = iconesCategories[categorie] || iconesCategories.default;
+  
+  section.innerHTML = `
+    <h2 class="titre-categorie">
+      <div class="icone-categorie">
+        <i class="fas ${icone}"></i>
+      </div>
+      ${categorie}
+      <span style="font-size: 1rem; color: #666; margin-left: auto; font-family: 'Inter';">${apis.length} API${apis.length > 1 ? 's' : ''}</span>
+    </h2>
+    <div class="grille-cartes" id="grille-${categorie.replace(/\s+/g, '-')}"></div>
+  `;
+  
+  const grille = section.querySelector('.grille-cartes');
+  apis.forEach(api => {
+    grille.appendChild(creerCarteAPI(api));
+  });
+  
+  return section;
+}
+
+// Copier URL
+function copierURL(url, btn) {
+  navigator.clipboard.writeText(url);
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-check"></i> Copié !';
+  btn.classList.add('copie');
+  
+  setTimeout(() => {
+    btn.innerHTML = originalHTML;
+    btn.classList.remove('copie');
+  }, 2000);
+}
+
+// Ouvrir API
+function ouvrirAPI(url) {
+  window.open(url, '_blank');
+}
+
+// Initialisation
+function initialiser() {
+  creerParticules();
+  
+  const groupe = grouperParCategorie(donneesAPI);
+  const categories = Object.keys(groupe);
+  
+  creerNavigation(categories);
+  
+  const container = document.getElementById('mainContainer');
+  categories.forEach((cat, index) => {
+    const section = creerSectionCategorie(cat, groupe[cat]);
+    section.style.animationDelay = (index * 0.2) + 's';
+    container.appendChild(section);
+  });
+  
+  // Charger depuis l'API réelle si disponible
+  /*
+  fetch('/api/list')
+    .then(res => res.json())
+    .then(data => {
+      // Mettre à jour avec données réelles
+    })
+    .catch(err => console.log('Mode démonstration actif'));
+  */
+}
+
+// Lancer
+initialiser();
 </script>
 
 </body>
 </html>
+
