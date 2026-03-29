@@ -38,15 +38,26 @@ body {
   padding: 20px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   transition: 0.3s;
+  text-align: center;
 }
 
 .card:hover {
   transform: translateY(-5px);
 }
 
+/* Logo */
+.logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 3px solid #ff6ec4;
+}
+
 /* Title */
 .card h3 {
-  margin: 0;
+  margin: 5px 0;
   color: #ff4fa3;
 }
 
@@ -106,10 +117,8 @@ body {
 <div class="container" id="apiContainer"></div>
 
 <script>
-// 🔗 API LIST URL (بدلو إذا عندك دومين)
 const API_URL = "/api/list";
 
-// 📥 جلب APIs
 fetch(API_URL)
   .then(res => res.json())
   .then(data => {
@@ -120,6 +129,8 @@ fetch(API_URL)
       card.className = "card";
 
       card.innerHTML = `
+        <img class="logo" src="${api.logo || 'https://via.placeholder.com/60'}" />
+
         <h3>${api.name}</h3>
         <div class="badge">${api.category}</div>
 
@@ -136,7 +147,7 @@ fetch(API_URL)
     });
   });
 
-// 📋 Copy function
+// 📋 Copy
 function copyUrl(url) {
   navigator.clipboard.writeText(url);
   alert("✅ تم نسخ الرابط!");
