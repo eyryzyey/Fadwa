@@ -19,6 +19,7 @@
 "file-type": "*",
 "form-data": "*",
 "mime-types": "*",
-"yt-search": "*"
+"yt-search": "*",
+"moment-timezone": "*"
   }
 }
