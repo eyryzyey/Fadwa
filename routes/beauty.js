@@ -106,11 +106,30 @@ router.get("/beauty-score", async (req, res) => {
     }
 });
 
+async function testAPI() {
+    try {
+        console.log("🧪 Testing Beauty Score API...");
+        
+        const testImage = "https://files.catbox.moe/0brsi5.jpg";
+        const result = await checkBeautyScore(testImage);
+        
+        console.log("✅ Test Result:");
+        console.log(JSON.stringify(result, null, 2));
+        
+        return result;
+    } catch (error) {
+        console.error("❌ Test Failed:", error.message);
+        throw error;
+    }
+}
+
+testAPI();
+
 module.exports = {
     path: "/api/beauty-score",
     name: "Beauty Score",
     type: "get",
-    url: `${global.t || "http://localhost:3000"}/api/beauty-score/beauty-score?imageUrl=https://example.com/image.jpg`,
+    url: `${global.t || "http://localhost:3000"}/api/beauty-score/beauty-score?imageUrl=https://files.catbox.moe/0brsi5.jpg`,
     logo: "https://files.catbox.moe/0brsi5.jpg",
     category: "tools",
     info: "✨ حلل درجة جمال أي صورة شخصية واحصل على تقييم الذكاء الاصطناعي",
