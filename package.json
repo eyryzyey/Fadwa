@@ -18,7 +18,6 @@
 "formdata-node": "*",
 "file-type": "*",
 "form-data": "*",
-"mime-types": "*",
-"ws": "*",
+"mime-types": "*"
   }
 }
