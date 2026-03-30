@@ -63,56 +63,16 @@ class DeepSeekHelper {
  }
 }
 
-router.post("/chat", async (req, res) => {
+router.get("/ask", async (req, res) => {
  try {
-   const { prompt, messages, model, max_tokens, temperature, api_key } = req.body;
-
-   if (!prompt) {
-     return res.status(400).json({
-       status: false,
-       error: "Missing required parameter: prompt",
-       example: "POST /api/deepseek/chat with body: { \"prompt\": \"Explain quantum computing\" }"
-     });
-   }
-
-   const key = api_key || process.env.DEEPSEEK_API_KEY || "937e9831-d15e-4674-8bd3-a30be3e148e9";
-   const helper = new DeepSeekHelper(key);
-
-   const options = {
-     messages: messages || [],
-     model: model || "deepseek-v3-1-250821",
-     max_tokens: max_tokens || 1024,
-     temperature: temperature ?? 0.1
-   };
-
-   const response = await helper.chat(prompt, options);
-
-   return res.status(200).json({
-     status: true,
-     result: response.result,
-     history: response.history,
-     info: response.info
-   });
-
- } catch (error) {
-   console.error("DeepSeek Error:", error.message);
-   return res.status(500).json({
-     status: false,
-     error: error?.response?.data?.error?.message || error.message || "Internal server error"
-   });
- }
-});
-
-router.get("/chat", async (req, res) => {
- try {
-   const { q, prompt, model, max_tokens, temperature } = req.query;
-   const userPrompt = q || prompt;
+   const { q, prompt, question } = req.query;
+   const userPrompt = q || prompt || question;
 
    if (!userPrompt) {
      return res.status(400).json({
        status: false,
-       error: "Missing required parameter: q or prompt",
-       example: "/api/deepseek/chat?q=Explain+quantum+computing"
+       error: "Missing required parameter: q, prompt or question",
+       example: "/api/deepseek/ask?q=hi"
      });
    }
 
@@ -120,16 +80,17 @@ router.get("/chat", async (req, res) => {
 
    const options = {
      messages: [],
-     model: model || "deepseek-v3-1-250821",
-     max_tokens: parseInt(max_tokens) || 1024,
-     temperature: parseFloat(temperature) || 0.1
+     model: "deepseek-v3-1-250821",
+     max_tokens: 1024,
+     temperature: 0.1
    };
 
    const response = await helper.chat(userPrompt, options);
 
    return res.status(200).json({
      status: true,
-     result: response.result,
+     question: userPrompt,
+     answer: response.result,
      info: response.info
    });
 
@@ -145,8 +106,8 @@ router.get("/chat", async (req, res) => {
 module.exports = {
  path: "/api/deepseek",
  name: "DeepSeek AI Chat",
- type: "post",
- url: `${global.t || "http://localhost:3000"}/api/deepseek/chat`,
+ type: "get",
+ url: `${global.t || "http://localhost:3000"}/api/deepseek/ask?q=hi`,
  logo: "https://www.deepseek.com/favicon.ico",
  category: "ai",
  info: "Chat with DeepSeek AI via Volces API",
