@@ -18,6 +18,7 @@
 "formdata-node": "*",
 "file-type": "*",
 "form-data": "*",
-"mime-types": "*"
+"mime-types": "*",
+"yt-search": "*"
   }
 }
