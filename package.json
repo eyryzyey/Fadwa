@@ -20,6 +20,6 @@
 "form-data": "*",
 "mime-types": "*",
 "ws": "*",
-"@/lib/spoof-head": "*"
+"lib/spoof-head": "*"
   }
 }
