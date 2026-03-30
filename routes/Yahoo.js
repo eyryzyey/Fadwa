@@ -67,13 +67,9 @@ router.get("/yahoo", async (req, res) => {
 module.exports = {
 
     path: '/api/search',
-
     name: 'yahoo',
-
     type: 'search',
-
     url: `${global.t}/api/search/yahoo?q=morocco`,
-
     logo: 'https://g.top4top.io/p_33532rqnm0.jpg',
 
     router,
