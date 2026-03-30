@@ -92,7 +92,7 @@ router.get("/download", async (req, res) => {
       return res.status(400).json({
         status: false,
         error: "Missing required parameter: url",
-        example: "/api/mediafire-dl/download?url=https://www.mediafire.com/file/xxxxx"
+        example: "/api/mediafire-dl/download?url=https://www.mediafire.com/file/nbzh4zoc8ohfrwz/sample.zip/file"
       });
     }
 
