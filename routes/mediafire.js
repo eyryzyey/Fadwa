@@ -92,7 +92,7 @@ router.get("/download", async (req, res) => {
       return res.status(400).json({
         status: false,
         error: "Missing required parameter: url",
-        example: "/api/mediafire-dl/download?url=https://www.mediafire.com/file/nbzh4zoc8ohfrwz/sample.zip/file"
+        example: "/api/mediafire-dl/download?url=https://www.mediafire.com/file/xxxxx"
       });
     }
 
@@ -133,7 +133,7 @@ module.exports = {
   path: "/api/mediafire-dl",
   name: "MediaFire Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/mediafire-dl/download?url=`,
+  url: `${global.t || "http://localhost:3000"}/api/mediafire-dl/download?url=https://www.mediafire.com/file/xxxxx`,
   logo: "https://www.mediafire.com/favicon.ico",
   category: "download",
   info: "Get direct download links from MediaFire URL",
