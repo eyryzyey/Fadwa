@@ -123,7 +123,7 @@ module.exports = {
   path: "/api/instagram",
   name: "Instagram Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/instagram/download?url=https://www.instagram.com/p/XXXXXXXXX/`,
+  url: `${global.t || "http://localhost:3000"}/api/instagram/download?url=https://www.instagram.com/reel/DSDfYQXk-xK/?igsh=enZyNWF1OXB3ZDVo`,
   logo: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png",
   category: "download",
   info: "Download Instagram posts, reels, and stories via FastDL.cc",
