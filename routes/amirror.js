@@ -163,7 +163,7 @@ module.exports = {
  type: "post",
  url: `${global.t || "http://localhost:3000"}/api/aimirror/generate`,
  logo: "https://be.aimirror.fun/favicon.ico",
- category: "tools",
+ category: "ai",
  info: "Transform photos using AI Mirror - AI-powered image style transfer",
  router
 };
