@@ -110,11 +110,11 @@ class GeminiHelper {
 
 const sessions = {};
 
-router.post("/chat", async (req, res) => {
+router.get("/chat", async (req, res) => {
   try {
-    const { prompt, session_id, reset } = req.body;
+    const { prompt, session_id, reset } = req.query;
 
-    if (reset === true || reset === "true") {
+    if (reset === "true") {
       if (session_id && sessions[session_id]) {
         delete sessions[session_id];
       }
@@ -128,7 +128,7 @@ router.post("/chat", async (req, res) => {
       return res.status(400).json({
         status: false,
         error: "Missing required parameter: prompt",
-        example: "/api/gemini/chat with body: { \"prompt\": \"Hello\" }"
+        example: "/api/gemini/chat?prompt=Hello&session_id=abc123"
       });
     }
 
@@ -155,9 +155,9 @@ router.post("/chat", async (req, res) => {
   }
 });
 
-router.post("/reset", async (req, res) => {
+router.get("/reset", async (req, res) => {
   try {
-    const { session_id } = req.body;
+    const { session_id } = req.query;
 
     if (!session_id) {
       return res.status(400).json({
@@ -190,10 +190,11 @@ router.post("/reset", async (req, res) => {
 module.exports = {
   path: "/api/gemini",
   name: "Gemini AI Chat",
-  type: "post",
-  url: `${global.t || "http://localhost:3000"}/api/gemini/chat`,
+  type: "get",
+  url: `${global.t || "http://localhost:3000"}/api/gemini/chat?prompt=Hello`,
   logo: "https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg",
-  category: "ai",
-  info: "Chat with Google Gemini AI with conversation memory",
+  category: "tools",
+  info: "Chat with Google Gemini AI with conversation memory via GET requests",
   router
 };
+
