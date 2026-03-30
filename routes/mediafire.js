@@ -133,7 +133,7 @@ module.exports = {
   path: "/api/mediafire-dl",
   name: "MediaFire Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/mediafire-dl/download?url=https://www.mediafire.com/file/xxxxx`,
+  url: `${global.t || "http://localhost:3000"}/api/mediafire-dl/download?url=https://www.mediafire.com/file/nbzh4zoc8ohfrwz/sample.zip/file`,
   logo: "https://www.mediafire.com/favicon.ico",
   category: "download",
   info: "Get direct download links from MediaFire URLs",
