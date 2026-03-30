@@ -155,7 +155,7 @@ module.exports = {
     type: "get",
     url: `${global.t || "http://localhost:3000"}/api/country-distance/distance?country1=Egypt&country2=France`,
     logo: "https://files.catbox.moe/2tt1xy.jpg",
-    category: "ai",
+    category: "tools",
     info: "🌍 احسب المسافة بين أي دولتين في العالم مع عرض معلومات شاملة: العاصمة، السكان، العملة، اللغة، الطقس، التوقيت المحلي، ورمز الاتصال",
     router
 };
