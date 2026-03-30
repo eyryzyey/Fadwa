@@ -4,7 +4,7 @@ const cheerio = require("cheerio");
 
 const router = express.Router();
 
-class MediafireSearchHelper {
+class MediaFireHelper {
   static getHeaders() {
     return {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -16,186 +16,112 @@ class MediafireSearchHelper {
     };
   }
 
-  static shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-
-  static async search(query, limit = 5) {
-    const headers = this.getHeaders();
-    const searchUrl = `https://mediafiretrend.com/?q=${encodeURIComponent(query)}&search=Search`;
-
-    const { data: html } = await axios.get(searchUrl, {
-      headers,
-      timeout: 30000
+  static async getFileInfo(url) {
+    const client = axios.create({
+      timeout: 30000,
+      maxRedirects: 5,
+      headers: this.getHeaders()
     });
 
-    const $ = cheerio.load(html);
-    
-    const linkSelectors = [
-      'tbody tr a[href*="/f/"]',
-      'a[href*="/f/"]',
-      'table tbody tr a',
-      '.file-list a',
-      'a[href^="/f/"]'
-    ];
-
-    let links = [];
-    for (const selector of linkSelectors) {
-      links = $(selector).map((_, el) => $(el).attr("href")).get();
-      if (links.length > 0) break;
-    }
-
-    if (!links.length) {
-      return [];
-    }
-
-    const shuffledLinks = this.shuffle(links).slice(0, limit);
-    const results = await Promise.all(
-      shuffledLinks.map(async (link) => {
-        try {
-          return await this.getFileDetails(link, headers);
-        } catch (err) {
-          console.error(`Error fetching ${link}:`, err.message);
-          return null;
-        }
-      })
-    );
-
-    return results.filter(item => item !== null);
-  }
-
-  static async getFileDetails(link, headers) {
-    const fullUrl = link.startsWith("http") ? link : `https://mediafiretrend.com${link}`;
-    const { data } = await axios.get(fullUrl, { headers, timeout: 30000 });
+    const { data } = await client.get(url);
     const $ = cheerio.load(data);
 
-    const filenameSelectors = [
-      "tr:nth-child(2) td:nth-child(2) b",
-      ".info tr:nth-child(2) td:nth-child(2) b",
-      "table.info tbody tr:nth-child(2) td:nth-child(2) b",
-      "h1.filename",
+    const linkSelectors = [
+      "#downloadButton",
+      "a#downloadButton",
+      ".download_link a",
+      ".dl-btn-cont a",
+      "a[href*='download']"
+    ];
+
+    let link = null;
+    for (const selector of linkSelectors) {
+      link = $(selector).attr("href");
+      if (link) break;
+    }
+
+    const nameSelectors = [
+      ".dl-btn-label",
+      ".promoDownloadName .dl-btn-label",
+      ".dl-filename",
       ".filename",
-      "b:contains('.')"
+      "h1",
+      "title"
     ];
 
-    let filename = "";
-    for (const selector of filenameSelectors) {
-      filename = $(selector).first().text().trim();
-      if (filename) break;
-    }
-
-    const filesizeSelectors = [
-      "tr:nth-child(3) td:nth-child(2)",
-      ".info tr:nth-child(3) td:nth-child(2)",
-      "table.info tbody tr:nth-child(3) td:nth-child(2)",
-      ".filesize",
-      "td:contains('MB'), td:contains('GB'), td:contains('KB')"
-    ];
-
-    let filesize = "";
-    for (const selector of filesizeSelectors) {
-      filesize = $(selector).first().text().trim();
-      if (filesize && /(MB|GB|KB|Bytes)/i.test(filesize)) break;
-    }
-
-    const scriptSelectors = [
-      "div.info tbody tr:nth-child(4) td:nth-child(2) script",
-      "tbody tr:nth-child(4) td:nth-child(2) script",
-      "script:contains('unescape')",
-      "script"
-    ];
-
-    let downloadUrl = null;
-    for (const selector of scriptSelectors) {
-      const raw = $(selector).text();
-      const match = raw.match(/unescape\(['"`]([^'"`]+)['"`]\)/);
-      if (match) {
-        const decoded = cheerio.load(decodeURIComponent(match[1]));
-        downloadUrl = decoded("a").attr("href");
-        if (downloadUrl) break;
+    let name = "file";
+    for (const selector of nameSelectors) {
+      const text = $(selector).attr("title") || $(selector).text().trim();
+      if (text) {
+        name = text;
+        break;
       }
     }
 
-    const sourceUrlSelectors = [
-      "tr:nth-child(5) td:nth-child(2)",
-      ".info tr:nth-child(5) td:nth-child(2)",
-      "table.info tbody tr:nth-child(5) td:nth-child(2)"
+    const sizeSelectors = [
+      ".download_link .input",
+      ".details .size",
+      ".dl-info .size",
+      ".file-info .size",
+      ".dl-size"
     ];
 
-    let sourceUrl = "";
-    for (const selector of sourceUrlSelectors) {
-      sourceUrl = $(selector).first().text().trim();
-      if (sourceUrl) break;
+    let size = "-";
+    for (const selector of sizeSelectors) {
+      const text = $(selector).text().trim();
+      const match = text.match(/\(([^)]+)\)/);
+      if (match) {
+        size = match[1];
+        break;
+      }
+      if (text && /(MB|GB|KB|Bytes)/i.test(text)) {
+        size = text;
+        break;
+      }
     }
 
-    const sourceTitleSelectors = [
-      "tr:nth-child(6) td:nth-child(2)",
-      ".info tr:nth-child(6) td:nth-child(2)",
-      "table.info tbody tr:nth-child(6) td:nth-child(2)"
-    ];
-
-    let sourceTitle = "";
-    for (const selector of sourceTitleSelectors) {
-      sourceTitle = $(selector).first().text().trim();
-      if (sourceTitle) break;
-    }
-
-    if (!downloadUrl) {
-      throw new Error("Download URL not found");
-    }
-
-    return {
-      filename: filename || "Unknown",
-      filesize: filesize || "Unknown",
-      url: downloadUrl,
-      source_url: sourceUrl || "",
-      source_title: sourceTitle || ""
-    };
+    return { link, name, size };
   }
 }
 
-router.get("/search", async (req, res) => {
+router.get("/download", async (req, res) => {
   try {
-    const { q, limit } = req.query;
+    const { url } = req.query;
 
-    if (!q) {
+    if (!url) {
       return res.status(400).json({
         status: false,
-        error: "Missing required parameter: q",
-        example: "/api/mediafire/search?q=nodejs+tutorial&limit=5"
+        error: "Missing required parameter: url",
+        example: "/api/mediafire-dl/download?url=https://www.mediafire.com/file/xxxxx"
       });
     }
 
-    const searchLimit = parseInt(limit) || 5;
-    if (searchLimit < 1 || searchLimit > 20) {
+    if (!url.includes("mediafire.com")) {
       return res.status(400).json({
         status: false,
-        error: "Limit must be between 1 and 20"
+        error: "Invalid MediaFire URL"
       });
     }
 
-    const results = await MediafireSearchHelper.search(q, searchLimit);
+    const result = await MediaFireHelper.getFileInfo(url);
 
-    if (!results.length) {
+    if (!result.link) {
       return res.status(404).json({
         status: false,
-        error: "No results found, try another keyword"
+        error: "Failed to get download link. File may be private or removed."
       });
     }
 
     return res.status(200).json({
       status: true,
-      query: q,
-      total: results.length,
-      results: results
+      filename: result.name,
+      filesize: result.size,
+      download_url: result.link,
+      source_url: url
     });
 
   } catch (error) {
-    console.error("Mediafire Search Error:", error.message);
+    console.error("MediaFire DL Error:", error.message);
     return res.status(500).json({
       status: false,
       error: error.message || "Internal server error"
@@ -204,13 +130,13 @@ router.get("/search", async (req, res) => {
 });
 
 module.exports = {
-  path: "/api/mediafire",
-  name: "Mediafire Search",
+  path: "/api/mediafire-dl",
+  name: "MediaFire Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/mediafire/search?q=nodejs+tutorial&limit=5`,
+  url: `${global.t || "http://localhost:3000"}/api/mediafire-dl/download?url=https://www.mediafire.com/file/xxxxx`,
   logo: "https://www.mediafire.com/favicon.ico",
-  category: "search",
-  info: "Search Mediafire files via mediafiretrend.com",
+  category: "download",
+  info: "Get direct download links from MediaFire URLs",
   router
 };
 
