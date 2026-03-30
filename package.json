@@ -17,7 +17,6 @@
 "mime-types": "*",
 "formdata-node": "*",
 "file-type": "*",
-"form-data": "*",
-"@/configs/apiConfig": "*"
+"form-data": "*"
   }
 }
