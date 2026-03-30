@@ -164,7 +164,7 @@ module.exports = {
   path: "/api/ytmp4",
   name: "YouTube MP4 Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/ytmp4/download?url=https://youtu.be/xxxxx&quality=720p`,
+  url: `${global.t || "http://localhost:3000"}/api/ytmp4/download?url=https://www.youtube.com/watch?v=dQw4w9WgXcQ&quality=720p`,
   logo: "https://www.youtube.com/favicon.ico",
   category: "download",
   info: "Download YouTube videos in MP4 format with quality selection",
