@@ -91,7 +91,7 @@ module.exports = {
   path: "/api/ytplay",
   name: "YouTube Audio Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/ytplay/play?q=funk+universo`,
+  url: `${global.t || "http://localhost:3000"}/api/ytplay/play?q=https://www.youtube.com/watch?v=cbfpiuPhaP8`,
   logo: "https://www.youtube.com/favicon.ico",
   category: "download",
   info: "Search YouTube and get audio download links via NexRay API",
