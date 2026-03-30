@@ -1,77 +1,144 @@
 const express = require("express");
-
 const axios = require("axios");
-
 const cheerio = require("cheerio");
 
 const router = express.Router();
 
-async function fetchYahooResults(query) {
+class YahooSearchHelper {
+  static getHeaders() {
+    return {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+      "Accept-Language": "en-US,en;q=0.9",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive",
+      "Upgrade-Insecure-Requests": "1"
+    };
+  }
 
-    try {
+  static async search(query) {
+    const yahooURL = `https://search.yahoo.com/search?p=${encodeURIComponent(query)}`;
 
-        const yahooURL = `https://search.yahoo.com/search?p=${encodeURIComponent(query)}`;
+    const { data } = await axios.get(yahooURL, {
+      headers: this.getHeaders(),
+      timeout: 30000
+    });
 
-        const { data } = await axios.get(yahooURL);
+    const $ = cheerio.load(data);
+    const results = [];
 
-        const $ = cheerio.load(data);
+    const resultSelectors = [
+      "ol.reg.searchCenterMiddle > li",
+      ".searchCenterMiddle li",
+      ".algo li",
+      "#web li"
+    ];
 
-        let results = [];
+    for (const selector of resultSelectors) {
+      $(selector).each((index, element) => {
+        const titleSelectors = [
+          "h3.title a",
+          "h3 a",
+          ".title a",
+          "a.ac-algo"
+        ];
 
-        $("ol.reg.searchCenterMiddle > li").each((index, element) => {
+        let title = "";
+        let link = "";
+        for (const titleSel of titleSelectors) {
+          const titleElement = $(element).find(titleSel);
+          title = titleElement.text().trim();
+          link = titleElement.attr("href");
+          if (title && link) break;
+        }
 
-            let titleElement = $(element).find("h3.title a");
+        const snippetSelectors = [
+          "div.compText p",
+          ".compText p",
+          ".description",
+          "p"
+        ];
 
-            let title = titleElement.text().trim();
+        let snippet = "";
+        for (const snippetSel of snippetSelectors) {
+          snippet = $(element).find(snippetSel).text().trim();
+          if (snippet) break;
+        }
 
-            let link = titleElement.attr("href");
+        const faviconSelectors = [
+          "a.thmb.algo-favicon img",
+          ".algo-favicon img",
+          "img.favicon"
+        ];
 
-            let snippet = $(element).find("div.compText p").text().trim();
+        let favicon = "";
+        for (const favSel of faviconSelectors) {
+          favicon = $(element).find(favSel).attr("src");
+          if (favicon) break;
+        }
 
-            let favicon = $(element).find("a.thmb.algo-favicon img").attr("src");
+        if (title && link) {
+          results.push({
+            position: results.length + 1,
+            title,
+            link,
+            snippet: snippet || "",
+            favicon: favicon || ""
+          });
+        }
+      });
 
-            results.push({ title, link, snippet, favicon });
-
-        });
-
-        return { search_results: results };
-
-    } catch (error) {
-
-        console.error("Error fetching Yahoo search results:", error);
-
-        return { error: "Failed to fetch search results" };
-
+      if (results.length > 0) break;
     }
 
+    return results;
+  }
 }
 
-// **API Route**
-
 router.get("/yahoo", async (req, res) => {
-
+  try {
     const { q } = req.query;
 
     if (!q) {
-
-        return res.status(400).json({ error: "Missing 'q' parameter" });
-
+      return res.status(400).json({
+        status: false,
+        error: "Missing required parameter: q",
+        example: "/api/search/yahoo?q=morocco"
+      });
     }
 
-    const results = await fetchYahooResults(q);
+    const results = await YahooSearchHelper.search(q);
 
-    res.json(results);
+    if (results.length === 0) {
+      return res.status(404).json({
+        status: false,
+        error: "No search results found"
+      });
+    }
 
+    return res.status(200).json({
+      status: true,
+      query: q,
+      total: results.length,
+      search_results: results
+    });
+
+  } catch (error) {
+    console.error("Yahoo Search Error:", error.message);
+    return res.status(500).json({
+      status: false,
+      error: error.message || "Failed to fetch search results"
+    });
+  }
 });
 
 module.exports = {
-
-    path: '/api/search',
-    name: 'yahoo',
-    type: 'search',
-    url: `${global.t}/api/search/yahoo?q=morocco`,
-    logo: 'https://g.top4top.io/p_33532rqnm0.jpg',
-
-    router,
-
+  path: "/api/search",
+  name: "Yahoo Search",
+  type: "get",
+  url: `${global.t || "http://localhost:3000"}/api/search/yahoo?q=morocco`,
+  logo: "https://www.yahoo.com/favicon.ico",
+  category: "search",
+  info: "Search Yahoo and get results with title, link, snippet and favicon",
+  router
 };
