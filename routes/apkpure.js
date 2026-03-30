@@ -1,207 +1,168 @@
 const express = require("express");
 const axios = require("axios");
+const { wrapper } = require("axios-cookiejar-support");
+const { CookieJar } = require("tough-cookie");
 const cheerio = require("cheerio");
 
 const router = express.Router();
 
-class ApkPure {
- constructor() {
-   this.baseHtml = "https://api.allorigins.win/raw?url=";
- }
-
- async search(query) {
-   try {
-     const url = `https://apkpure.com/id/search?q=${encodeURIComponent(query)}`;
-     const response = await axios.get(`${this.baseHtml}${encodeURIComponent(url)}`, {
-       headers: {
-         "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
-         Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-         "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
-         "Accept-Encoding": "gzip, deflate, br",
-         Connection: "keep-alive",
-         "Upgrade-Insecure-Requests": "1"
-       }
-     });
-     
-     const $ = cheerio.load(response.data);
-     const results = [];
-     
-     $("#search-app-list .search-res li").each((_, el) => {
-       results.push({
-         title: $(el).find(".p1").text().trim(),
-         developer: $(el).find(".p2").text().trim(),
-         rating: $(el).find(".star").text().trim(),
-         link: $(el).find("a.dd").attr("href"),
-         thumb: $(el).find("img").attr("src")
-       });
-     });
-
-     return results;
-   } catch (error) {
-     throw new Error(`Search failed: ${error.message}`);
+class SoundCloud {
+constructor() {
+ this.jar = new CookieJar();
+ this.base = "https://soundcloudmp3.org";
+ this.api = wrapper(axios.create({
+   jar: this.jar,
+   withCredentials: true,
+   baseURL: this.base,
+   headers: {
+     "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36",
+     Accept: "application/json, text/javascript, */*; q=0.01",
+     "Accept-Language": "id-ID",
+     "Accept-Encoding": "gzip, deflate, br",
+     Referer: "https://soundcloudmp3.org/",
+     "X-Requested-With": "XMLHttpRequest",
+     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+     Connection: "keep-alive"
    }
- }
+ }));
+}
 
- async detail(url) {
-   try {
-     const response = await axios.get(`${this.baseHtml}${encodeURIComponent(url)}`, {
-       headers: {
-         "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
-         Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-         "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
-         "Accept-Encoding": "gzip, deflate, br",
-         Connection: "keep-alive",
-         "Upgrade-Insecure-Requests": "1"
-       }
-     });
-
-     const $ = cheerio.load(response.data);
-     const main = $("main.dt-details-new-box");
-     const downloadLink = main.find(".download_apk_news").attr("href");
-     const meta = this.extractMeta($);
-     
-     let media = null;
-     if (downloadLink) {
-       media = await this.getDownloadData(downloadLink);
-     }
-
-     return {
-       title: main.find("h1").text().trim(),
-       developer: main.find(".developer a").text().trim(),
-       version: main.find(".version-name span").text().trim(),
-       rating: main.find(".stars").text().trim(),
-       updateDate: main.find(".dev-partnership-head-info li").eq(1).find(".head").text().trim(),
-       androidOS: main.find(".dev-partnership-head-info li").eq(2).find(".head").text().trim(),
-       downloadLink: downloadLink || "Tidak tersedia",
-       media: media,
-       ...meta
-     };
-   } catch (error) {
-     throw new Error(`Detail fetch failed: ${error.message}`);
-   }
- }
-
- async getDownloadData(link) {
-   try {
-     const response = await axios.get(`${this.baseHtml}${encodeURIComponent(link)}`, {
-       headers: {
-         "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
-         Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-         "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
-         "Accept-Encoding": "gzip, deflate, br",
-         Connection: "keep-alive",
-         "Upgrade-Insecure-Requests": "1"
-       }
-     });
-
-     const $ = cheerio.load(response.data);
-     const meta = this.extractMeta($);
-     const variants = [];
-
-     $("#version-list .apk").each((_, el) => {
-       variants.push({
-         version: $(el).find(".info-top .name").text().trim(),
-         code: $(el).find(".info-top .code").text().trim(),
-         size: $(el).find(".info-bottom .size").text().trim(),
-         sdk: $(el).find(".info-bottom .sdk").text().trim(),
-         link: $(el).find(".download-btn").attr("href")
-       });
-     });
-
-     return {
-       title: $(".download-process-box .download-content h2").text().trim() || "Status tidak tersedia",
-       link: $(".download-fallback a#download_link").attr("href") || "",
-       variants: variants,
-       ...meta
-     };
-   } catch (error) {
-     throw new Error(`Download data fetch failed: ${error.message}`);
-   }
- }
-
- extractMeta($) {
-   const meta = {};
-   $("meta").each((_, el) => {
-     const name = $(el).attr("name") || $(el).attr("property");
-     if (name) {
-       meta[name] = $(el).attr("content");
-     }
-   });
-   return meta;
+async init() {
+ try {
+   const { data } = await this.api.get("/");
+   const $ = cheerio.load(data);
+   const token = $('meta[name="csrf-token"]')?.attr("content") || null;
+   if (!token) throw new Error("Token tidak ditemukan");
+   return token;
+ } catch (e) {
+   throw new Error(`Failed to initialize: ${e.message}`);
  }
 }
 
-router.get("/search", async (req, res) => {
+async meta(url, token) {
  try {
-   const { q } = req.query;
+   const form = new URLSearchParams();
+   form.append("_token", token);
+   form.append("url", url);
+   const res = await this.api.post("/api/fetch-track", form);
+   if (res.data?.status !== "success") throw new Error("Gagal fetch track");
+   return res.data.track;
+ } catch (e) {
+   throw new Error(`Failed to fetch metadata: ${e.message}`);
+ }
+}
 
-   if (!q) {
-     return res.status(400).json({
-       status: false,
-       error: "Missing required parameter: q"
-     });
+async start(track, token) {
+ try {
+   const form = new URLSearchParams();
+   form.append("_token", token);
+   form.append("soundcloud_id", track.soundcloud_id);
+   form.append("tier", 1);
+   form.append("download_id", Math.floor(Math.random() * 1000000));
+   await this.api.post("/api/start-download", form);
+ } catch (e) {
+   // Continue to polling
+ }
+}
+
+async poll(track) {
+ const server = track.server_url ? track.server_url : "https://dl4.soundcloudmp3.org";
+ const endpoint = `${server}/api/progress`;
+ const form = new URLSearchParams();
+ form.append("v", track.soundcloud_id);
+ form.append("tier", 1);
+
+ for (let i = 0; i < 60; i++) {
+   try {
+     await new Promise(r => setTimeout(r, 3000));
+     const { data } = await this.api.post(endpoint, form);
+     if (data?.cdn_url) {
+       return data.cdn_url;
+     }
+   } catch (e) {
+     // Continue polling
    }
+ }
+ throw new Error("Timeout polling download");
+}
 
-   const apk = new ApkPure();
-   const results = await apk.search(q);
-
-   return res.status(200).json({
+async download({ url, ...rest }) {
+ const start = Date.now();
+ try {
+   const token = await this.init();
+   const track = await this.meta(url, token);
+   await this.start(track, token);
+   const downloadUrl = await this.poll(track);
+   
+   return {
      status: true,
-     query: q,
-     results: results,
-     count: results.length
-   });
-
+     title: track?.title,
+     artist: track?.artist,
+     duration: track?.length,
+     image: track?.image,
+     download: downloadUrl,
+     input_url: url,
+     time: `${(Date.now() - start) / 1000}s`,
+     ...rest
+   };
  } catch (error) {
-   return res.status(500).json({
+   return {
      status: false,
-     error: error.message
+     error: error?.message || "Error Unknown",
+     input_url: url
+   };
+ }
+}
+}
+
+router.get("/download", async (req, res) => {
+try {
+ const { url } = req.query;
+
+ if (!url) {
+   return res.status(400).json({
+     status: false,
+     error: "Missing required parameter: url"
    });
  }
-});
 
-router.get("/detail", async (req, res) => {
- try {
-   const { url } = req.query;
+ const api = new SoundCloud();
+ const data = await api.download({ url });
 
-   if (!url) {
-     return res.status(400).json({
-       status: false,
-       error: "Missing required parameter: url"
-     });
-   }
-
-   const apk = new ApkPure();
-   const result = await apk.detail(url);
-
-   if (!result) {
-     return res.status(404).json({
-       status: false,
-       error: "App not found or failed to fetch details"
-     });
-   }
-
-   return res.status(200).json({
-     status: true,
-     data: result
-   });
-
- } catch (error) {
-   return res.status(500).json({
+ if (!data.status) {
+   return res.status(400).json({
      status: false,
-     error: error.message
+     error: data.error || "Download failed"
    });
  }
+
+ return res.status(200).json({
+   status: true,
+   title: data.title,
+   artist: data.artist,
+   duration: data.duration,
+   image: data.image,
+   download: data.download,
+   input_url: data.input_url,
+   time: data.time
+ });
+
+} catch (error) {
+ return res.status(500).json({
+   status: false,
+   error: error.message || "Internal server error"
+ });
+}
 });
 
 module.exports = {
- path: "/api/apkpure",
- name: "APKPure App Search",
- type: "get",
- url: `${global.t || "http://localhost:3000"}/api/apkpure/search?q=whatsapp`,
- logo: "https://apkpure.com/favicon.ico",
- category: "search",
- info: "Search and get details of Android apps from APKPure",
- router
+path: "/api/soundcloud",
+name: "SoundCloud Downloader",
+type: "get",
+url: `${global.t || "http://localhost:3000"}/api/soundcloud/download?url=https://soundcloud.com/artist/track`,
+logo: "https://soundcloud.com/favicon.ico",
+category: "download",
+info: "Download tracks from SoundCloud as MP3",
+router
 };
 
