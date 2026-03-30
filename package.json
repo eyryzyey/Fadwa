@@ -20,6 +20,5 @@
 "form-data": "*",
 "mime-types": "*",
 "ws": "*",
-"lib/spoof-head": "*"
   }
 }
