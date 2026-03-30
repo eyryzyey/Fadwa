@@ -20,6 +20,7 @@
 "form-data": "*",
 "mime-types": "*",
 "yt-search": "*",
-"moment-timezone": "*"
+"moment-timezone": "*",
+"google-translate-api-x": "*"
   }
 }
