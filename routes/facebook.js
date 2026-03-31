@@ -95,7 +95,7 @@ module.exports = {
   path: "/api/facebook",
   name: "Facebook Video Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/facebook/download?url=https://facebook.com/watch?v=...`,
+  url: `${global.t || "http://localhost:3000"}/api/facebook/download?url=https://www.facebook.com/Meta/videos/10153231379946729/`,
   logo: "https://cdn-icons-png.flaticon.com/512/124/124010.png",
   category: "download",
   info: "Download Facebook videos in SD and HD quality",
