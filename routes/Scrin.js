@@ -42,7 +42,7 @@ module.exports = {
     path: "/api/ssweb",
     name: "Website Screenshot",
     type: "get",
-    url: `${global.t || "http://localhost:3000"}/api/ssweb/ssweb?url=https://example.com`,
+    url: `${global.t || "http://localhost:3000"}/api/ssweb/ssweb?url=https://takamura.site`,
     logo: "https://l.top4top.io/p_3353capxa0.jpg",
     category: "tools",
     info: "📸 احصل على لقطة شاشة عالية الجودة لأي موقع ويب",
