@@ -60,10 +60,9 @@ module.exports = {
   path: "/api/gdrive",
   name: "Téléchargeur Google Drive 📥",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/gdrive/download?url=https://drive.google.com/file/d/xxx`,
-  logo: "https://files.catbox.moe/xyz123.jpg",
+  url: `${global.t || "http://localhost:3000"}/api/gdrive/download?url=https://drive.google.com/file/d/1ZdR3L1Yy0nq8z7p3uQ2JwZx6c8hV5b9A/view?usp=sharing`,
+  logo: "https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_logo.png",
   category: "download",
   info: "📂 تحميل الملفات من Google Drive مباشرة",
   router
 };
-
