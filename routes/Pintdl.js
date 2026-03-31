@@ -23,7 +23,7 @@ async function getSnappinToken() {
 async function snappinDownload(pinterestUrl) {
   const { csrfToken, cookies } = await getSnappinToken();
 
-  const postRes = await axios.post(
+  const { data } = await axios.post(
     "https://snappin.app/",
     { url: pinterestUrl },
     {
@@ -40,38 +40,34 @@ async function snappinDownload(pinterestUrl) {
     }
   );
 
-  const $ = cheerio.load(postRes.data);
-  const thumb = $("img").attr("src");
-
+  const $ = cheerio.load(data);
   const downloadLinks = $("a.button.is-success")
     .map((_, el) => $(el).attr("href"))
     .get();
 
-  let videoUrl = null;
-  let imageUrl = null;
+  let mediaUrl = null;
+  let mediaType = null;
 
   for (const link of downloadLinks) {
     const fullLink = link.startsWith("http") ? link : "https://snappin.app" + link;
     const head = await axios.head(fullLink, { timeout: 5000 }).catch(() => null);
     const contentType = head?.headers?.["content-type"] || "";
 
-    if (link.includes("/download-file/")) {
-      if (contentType.includes("video")) {
-        videoUrl = fullLink;
-      } else if (contentType.includes("image")) {
-        imageUrl = fullLink;
-      }
-    } else if (link.includes("/download-image/")) {
-      imageUrl = fullLink;
+    if (contentType.includes("video")) {
+      mediaUrl = fullLink;
+      mediaType = "video";
+      break;
+    } else if (contentType.includes("image")) {
+      mediaUrl = fullLink;
+      mediaType = "image";
     }
   }
 
-  return {
-    status: true,
-    thumb: thumb || "",
-    video: videoUrl,
-    image: videoUrl ? null : imageUrl
-  };
+  if (!mediaUrl) {
+    throw new Error("No media found");
+  }
+
+  return { url: mediaUrl, type: mediaType };
 }
 
 router.get("/download", async (req, res) => {
@@ -95,17 +91,11 @@ router.get("/download", async (req, res) => {
 
     const result = await snappinDownload(url.trim());
 
-    if (!result.video && !result.image) {
-      return res.status(404).json({
-        status: false,
-        error: "No media found in this link"
-      });
-    }
-
     return res.status(200).json({
       status: true,
       platform: "pinterest",
-      ...result
+      mediaType: result.type,
+      downloadUrl: result.url
     });
 
   } catch (error) {
@@ -120,7 +110,7 @@ module.exports = {
   path: "/api/pinterest",
   name: "Pinterest Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/pinterest/download?url=https://www.pinterest.com/pin/99360735500167749/`,
+  url: `${global.t || "http://localhost:3000"}/api/pinterest/download?url=https://pin.it/xxxx`,
   logo: "https://cdn-icons-png.flaticon.com/512/174/174863.png",
   category: "download",
   info: "Download images and videos from Pinterest",
