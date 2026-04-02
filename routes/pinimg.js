@@ -307,7 +307,7 @@ module.exports = {
   name: "Pinterest Image Scraper API",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/pinterest/images?limit=20&decorate=true`,
-  logo: "https://i.pinimg.com/favicon.ico",
+  logo: "https://cdn-icons-png.flaticon.com/512/174/174863.png",
   category: "search",
   info: "جلب الصور من الصفحة الرئيسية لبينتريست مع زخرفة قوية ومعلومات مفصلة. يدعم البحث وتحديد عدد الصور وإضافة زخارف للنصوص",
   router
