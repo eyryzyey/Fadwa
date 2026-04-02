@@ -71,18 +71,21 @@ async function chat({ input, sessionId = null }) {
   }
 }
 
-router.post("/chat", async (req, res) => {
+router.get("/chat", async (req, res) => {
   try {
-    const { message, sessionId } = req.body;
+    const { q, query, message, sessionId } = req.query;
 
-    if (!message || typeof message !== "string" || message.trim().length === 0) {
+    const inputMessage = q || query || message;
+
+    if (!inputMessage || typeof inputMessage !== "string" || inputMessage.trim().length === 0) {
       return res.status(400).json({
         status: false,
-        error: "Missing or invalid parameter: 'message' is required in body"
+        error: "Missing or invalid parameter: 'q', 'query', or 'message' is required",
+        example: `${global.t || "http://localhost:3000"}/api/chatupai/chat?q=hello`
       });
     }
 
-    const result = await chat({ input: message.trim(), sessionId: sessionId || null });
+    const result = await chat({ input: inputMessage.trim(), sessionId: sessionId || null });
 
     if (!result.success) {
       return res.status(500).json({
@@ -108,8 +111,8 @@ router.post("/chat", async (req, res) => {
 module.exports = {
   path: "/api/chatupai",
   name: "ChatUp AI Chat",
-  type: "post",
-  url: `${global.t || "http://localhost:3000"}/api/chatupai/chat`,
+  type: "get",
+  url: `${global.t || "http://localhost:3000"}/api/chatupai/chat?q=hello`,
   logo: "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
   category: "ai",
   info: "AI chatbot with session management",
