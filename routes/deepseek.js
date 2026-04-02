@@ -106,9 +106,8 @@ module.exports = {
   name: "Al Jazeera Breaking News",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/aljazeera/news`,
-  logo: "https://cdn-icons-png.flaticon.com/512/5968/5968866.png",
+  logo: "https://cdn.iconscout.com/icon/free/png-256/free-aljazeera-logo-icon-svg-download-png-461765.png",
   category: "ai",
   info: "Get breaking news and live updates from Al Jazeera",
   router
 };
-
