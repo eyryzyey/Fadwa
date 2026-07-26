@@ -150,7 +150,7 @@ module.exports = {
  name: "Simsimi AI Chat",
  type: "get",
  url: `${global.t || "http://localhost:3000"}/api/simsimi/chat?message=كيف%20حالك؟`,
- logo: "https://cdn-icons-png.flaticon.com/512/3659/3659898.png",
+ logo: "https://cdn-icons-png.flaticon.com/512/742/742751.png",
  category: "ai",
  info: "Fun chatbot powered by Simsimi AI - Arabic friendly conversational bot",
  router
