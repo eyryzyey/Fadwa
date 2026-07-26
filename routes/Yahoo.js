@@ -1,4 +1,4 @@
-const express = require("express");
+٨const express = require("express");
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -43,7 +43,7 @@ router.get("/search", async (req, res) => {
       return res.status(400).json({
         status: false,
         error: "Missing or invalid parameter: 'q' or 'query' is required",
-        example: `${global.t || "http://localhost:3000"}/api/yahoo/search?q=marocco`
+        example: `${global.t || "http://localhost:3000"}/api/yahoo/search?q=egypt`
       });
     }
 
@@ -69,7 +69,7 @@ module.exports = {
   path: "/api/yahoo",
   name: "Yahoo Search",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/yahoo/search?q=marocco`,
+  url: `${global.t || "http://localhost:3000"}/api/yahoo/search?q=egypt`,
   logo: "https://cdn-icons-png.flaticon.com/512/732/732223.png",
   category: "search",
   info: "Search the web using Yahoo",
