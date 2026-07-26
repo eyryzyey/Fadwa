@@ -62,7 +62,7 @@ module.exports = {
  name: "Unlimited AI Chat",
  type: "get",
  url: `${global.t || "http://localhost:3000"}/api/unlimited/chat?q=hello`,
- logo: "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
+ logo: "https://cdn-icons-png.flaticon.com/512/3659/3659956.png",
  category: "ai",
  info: "AI chat powered by UnlimitedAI",
  router
