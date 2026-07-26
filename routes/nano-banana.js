@@ -446,7 +446,7 @@ module.exports = {
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/ai-image/generate?prompt=cat%20in%20garden&model=flux`,
   logo: "https://cdn-icons-png.flaticon.com/512/3659/3659898.png",
-  category: "tools",
+  category: "ai",
   info: "Generate AI images from text prompts using Nano Banana and Flux models with support for aspect ratios and format selection",
   router
 };
