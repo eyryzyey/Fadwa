@@ -442,7 +442,7 @@ router.delete("/sessions", async (req, res) => {
 
 module.exports = {
   path: "/api/ai-image",
-  name: "AI Image Generator",
+  name: "AI Image Nano-Banana",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/ai-image/generate?prompt=cat%20in%20garden&model=flux`,
   logo: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=128&h=128&fit=crop",
