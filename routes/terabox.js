@@ -345,7 +345,8 @@ module.exports = {
   path: "/api/terabox",
   name: "Terabox Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/terabox/download?url=https://1024terabox.com/s/xxx`,
+  url: `${global.t || "http://localhost:3000"}/api/terabox/download?url=https://teraboxapp.com/s/1UmsZ_phFHNDQkjR-MNrOqg"
+`,
   logo: "https://cdn-icons-png.flaticon.com/512/2926/2926319.png",
   category: "download",
   info: "Fetch metadata and download links from Terabox URLs with file type detection and proxy streaming support",
