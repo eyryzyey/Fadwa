@@ -222,7 +222,7 @@ module.exports = {
   name: "Instagram Reels Search",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/reels/search?q=funny%20cats&num=10`,
-  logo: "https://www.instagram.com/favicon.ico",
+  logo: "https://cdn.phototourl.com/free/2026-07-28-8631afd2-c74d-497b-b47e-dc357102fd57.jpg",
   category: "search",
   info: "Search Instagram Reels via Google Custom Search Engine with title, description, URL and thumbnail extraction",
   router
