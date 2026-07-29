@@ -16,7 +16,6 @@
 "tough-cookie": "*",
 "https": "*",
 "mime-types": "*",
-"multet": "*",
 "formdata-node": "*",
 "file-type": "*",
 "form-data": "*",
