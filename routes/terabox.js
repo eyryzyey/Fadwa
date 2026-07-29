@@ -345,7 +345,7 @@ module.exports = {
   path: "/api/terabox",
   name: "Terabox Downloader",
   type: "get",
-  url: `${global.t || "http://localhost:3000"}/api/terabox/download?url=https://s2.teraboxcdn.com/common-static/favicon.ico"
+  url: `${global.t || "http://localhost:3000"}/api/terabox/download?url=https://teraboxshare.com/s/1LNr3tyl5pI5KUM8BecGtyQ"
 `,
   logo: "https://cdn-icons-png.flaticon.com/512/2926/2926319.png",
   category: "download",
