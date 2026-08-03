@@ -341,7 +341,7 @@ router.post("/images", async (req, res) => {
 
 module.exports = {
   path: "/api/manga",
-  name: "Manga Reader",
+  name: "Manga download",
   type: "get",
   url: `${global.t || "http://localhost:3000"}/api/manga/search?q=naruto`,
   logo: "https://cdn-icons-png.flaticon.com/512/3145/3145765.png",
